@@ -4,6 +4,7 @@ import {API_GEODB_CITIES_TOKEN} from '@env';
 import MainScreen from './src/screens/MainScreen';
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import FavouritesScreen from './src/screens/FavouritesScreen';
 
 export type RootTabParamList = {
   MainScreen: undefined;
@@ -23,7 +24,7 @@ function App(): JSX.Element {
         />
         <Tab.Screen
           name="FavouritesScreen"
-          component={MainScreen}
+          component={FavouritesScreen}
           options={{title: 'Favourites'}}
         />
       </Tab.Navigator>
