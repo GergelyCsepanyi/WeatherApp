@@ -8,7 +8,7 @@ type HeaderProps = {cityName: string};
 const Header = (props: HeaderProps) => {
   return (
     <SafeAreaView style={styles.containerStyle}>
-      <Stack size={30} />
+      <Stack size={10} />
       <Text style={styles.cityTextStyle}>{props.cityName}</Text>
       <Stack size={20} />
       <Text style={styles.conditionsTextStyle}>Weather Conditions</Text>

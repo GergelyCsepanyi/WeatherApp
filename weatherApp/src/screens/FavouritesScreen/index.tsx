@@ -5,6 +5,7 @@ import Header from '../../components/Header';
 import DataSection from '../../components/DataSection';
 import type {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootTabParamList} from '../../../App';
+import styles from './styles';
 
 const cities = [
   {
@@ -27,7 +28,7 @@ const FavouritesScreen = (props: FavouritesScreenProps) => {
   return (
     <Swiper>
       {cities.map((city, i) => (
-        <SafeAreaView key={i}>
+        <SafeAreaView key={i} style={styles.containerStyle}>
           <Header cityName={city.name} />
           <DataSection />
         </SafeAreaView>

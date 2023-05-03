@@ -5,8 +5,8 @@ import MainScreen from './src/screens/MainScreen';
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import FavouritesScreen from './src/screens/FavouritesScreen';
-import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
+import IconButton from './src/components/IconButton';
 
 export type RootTabParamList = {
   MainScreen: undefined;
@@ -17,7 +17,10 @@ function App(): JSX.Element {
   const Tab = createBottomTabNavigator<RootTabParamList>();
 
   const renderAddCityIcon = () => (
-    <MaterialIcon name="queue" size={30} color="black" />
+    <IconButton
+      icon={<MaterialIcon name="queue" size={30} color="black" />}
+      onPress={() => console.log('PRESS')}
+    />
   );
   const renderLocationIcon = () => (
     <MaterialIcon name="room" size={30} color="black" />
@@ -36,7 +39,10 @@ function App(): JSX.Element {
         <Tab.Screen
           name="MainScreen"
           component={MainScreen}
-          options={{title: 'Location', tabBarIcon: renderLocationIcon}}
+          options={{
+            title: 'Location',
+            tabBarIcon: renderLocationIcon,
+          }}
         />
         <Tab.Screen
           name="FavouritesScreen"
