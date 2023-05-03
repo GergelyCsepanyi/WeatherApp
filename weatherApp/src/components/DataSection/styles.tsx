@@ -1,7 +1,7 @@
 import {StyleSheet} from 'react-native';
 
 const styles = StyleSheet.create({
-  innerContainerStyle: {
+  containerStyle: {
     height: '80%',
     width: '95%',
     alignSelf: 'center',
