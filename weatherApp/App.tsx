@@ -7,10 +7,13 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import FavouritesScreen from './src/screens/FavouritesScreen';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import IconButton from './src/components/IconButton';
+import AddCityModal from './src/screens/AddCityModal';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
 
 export type RootTabParamList = {
   MainScreen: undefined;
   FavouritesScreen: undefined;
+  AddCityModal: undefined;
 };
 
 function App(): JSX.Element {
@@ -30,21 +33,22 @@ function App(): JSX.Element {
   );
 
   return (
-    <NavigationContainer>
-      <Tab.Navigator
-        screenOptions={{
-          headerShown: true,
-          headerTitle: '',
-        }}>
-        <Tab.Screen
-          name="MainScreen"
-          component={MainScreen}
-          options={{
-            title: 'Location',
-            tabBarIcon: renderLocationIcon,
-          }}
-        />
-        <Tab.Screen
+    <SafeAreaProvider>
+      <NavigationContainer>
+        <Tab.Navigator
+          screenOptions={{
+            headerShown: true,
+            headerTitle: '',
+          }}>
+          <Tab.Screen
+            name="MainScreen"
+            component={MainScreen}
+            options={{
+              title: 'Location',
+              tabBarIcon: renderLocationIcon,
+            }}
+          />
+          {/* <Tab.Screen
           name="FavouritesScreen"
           component={FavouritesScreen}
           options={{
@@ -52,9 +56,18 @@ function App(): JSX.Element {
             tabBarIcon: renderFilledFavouriteIcon,
             headerRight: renderAddCityIcon,
           }}
-        />
-      </Tab.Navigator>
-    </NavigationContainer>
+        /> */}
+
+          <Tab.Screen
+            name="AddCityModal"
+            component={AddCityModal}
+            options={{
+              title: 'AddCityModal',
+            }}
+          />
+        </Tab.Navigator>
+      </NavigationContainer>
+    </SafeAreaProvider>
   );
 }
 
