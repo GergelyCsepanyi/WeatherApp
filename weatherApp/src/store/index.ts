@@ -38,7 +38,14 @@ class Cities {
   }
 
   addCity(city: CityResponse) {
+    if (this.cities.find(currentCity => currentCity.id === city.id)) {
+      return;
+    }
     this.cities = addCity(this.cities, city);
+  }
+
+  replaceCities(cities: City[]) {
+    this.cities = cities;
   }
 }
 

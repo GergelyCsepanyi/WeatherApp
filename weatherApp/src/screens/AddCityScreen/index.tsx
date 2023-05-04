@@ -8,6 +8,10 @@ import RenderIconButton from '../../components/RenderIconButton';
 import {FlatList} from 'react-native-gesture-handler';
 import {CityResponse, citiesApi} from '../../services/CitiesAPI';
 import store, {City} from '../../store';
+import DraggableFlatList, {
+  ScaleDecorator,
+} from 'react-native-draggable-flatlist';
+import {toJS} from 'mobx';
 
 type AddCityScreenProps = NativeStackScreenProps<
   RootStackParamList,
@@ -19,6 +23,9 @@ const AddCityScreen = (props: AddCityScreenProps) => {
   const [isSearchBarFocused, setIsSearchBarFocused] = useState(false);
   const [foundCities, setFoundCities] = useState<CityResponse[]>([]);
   const [selectedCity, setSelectedCity] = useState<CityResponse | null>(null);
+  const [favouriteCitiesList, setFavouriteCitiesList] = useState<City[]>(
+    toJS(store.cities),
+  );
 
   const handleClose = useCallback(() => {
     props.navigation.goBack();
@@ -54,6 +61,7 @@ const AddCityScreen = (props: AddCityScreenProps) => {
   const handleCitySelection = (city: CityResponse) => {
     setSelectedCity(city);
     store.addCity(city);
+    setFavouriteCitiesList(toJS(store.cities));
     setFoundCities([]);
     setSearchbarCityValue('');
   };
@@ -88,11 +96,13 @@ const AddCityScreen = (props: AddCityScreenProps) => {
       </View>
     );
   };
-  const renderFavouriteCitiesItem = (item: City) => {
+  const renderFavouriteCitiesItem = ({item, drag, isActive}) => {
     return (
-      <TouchableOpacity>
-        <Text>{`${item.name}, ${item.country}`}</Text>
-      </TouchableOpacity>
+      <ScaleDecorator>
+        <TouchableOpacity onLongPress={drag} disabled={isActive}>
+          <Text>{`${item.name}, ${item.country}`}</Text>
+        </TouchableOpacity>
+      </ScaleDecorator>
     );
   };
 
@@ -119,10 +129,15 @@ const AddCityScreen = (props: AddCityScreenProps) => {
             }
           />
         ) : (
-          <FlatList
-            data={store.cities}
+          <DraggableFlatList
+            keyExtractor={item => String(item.id)}
+            data={favouriteCitiesList}
+            onDragEnd={({data}) => {
+              store.replaceCities(data as City[]);
+              setFavouriteCitiesList(toJS(store.cities));
+            }}
             ListHeaderComponent={renderFavouriteCitiesHeader}
-            renderItem={({item}) => renderFavouriteCitiesItem(item)}
+            renderItem={renderFavouriteCitiesItem}
             ListEmptyComponent={
               searchbarCityValue !== '' ? renderFlatListEmptyItem : null
             }

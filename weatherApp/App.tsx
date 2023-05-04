@@ -8,6 +8,7 @@ import CitiesStackScreen from './src/screens/CitiesStackScreen';
 import store, {City} from './src/store';
 import CityScreen from './src/screens/CityScreen';
 import AddCityScreen from './src/screens/AddCityScreen';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
 
 export type RootTabParamList = {
   CityScreen: {item: City};
@@ -27,36 +28,40 @@ function App(): JSX.Element {
 
   return (
     <SafeAreaProvider>
-      <NavigationContainer>
-        <Tab.Navigator
-          screenOptions={{
-            headerShown: true,
-            headerTitle: '',
-          }}>
-          <Tab.Screen
-            name="CityScreen"
-            //component={CityScreen}
-            options={{
-              title: 'Location',
-              tabBarIcon: renderLocationIcon,
-            }}
-            children={() => CityScreen({city: {id: '222', name: 'Budapest'}})}
-            //initialParams={{item: {id: '222', name: 'Budapest'}}}
-          />
-          <Tab.Screen
-            name={
-              store.cities.length === 0 ? 'AddCityScreen' : 'CitiesStackScreen'
-            }
-            component={
-              store.cities.length === 0 ? AddCityScreen : CitiesStackScreen
-            }
-            options={{
-              title: 'Favourites',
-              tabBarIcon: renderFilledFavouriteIcon,
-            }}
-          />
-        </Tab.Navigator>
-      </NavigationContainer>
+      <GestureHandlerRootView style={{flex: 1}}>
+        <NavigationContainer>
+          <Tab.Navigator
+            screenOptions={{
+              headerShown: true,
+              headerTitle: '',
+            }}>
+            <Tab.Screen
+              name="CityScreen"
+              //component={CityScreen}
+              options={{
+                title: 'Location',
+                tabBarIcon: renderLocationIcon,
+              }}
+              children={() => CityScreen({city: {id: '222', name: 'Budapest'}})}
+              //initialParams={{item: {id: '222', name: 'Budapest'}}}
+            />
+            <Tab.Screen
+              name={
+                store.cities.length === 0
+                  ? 'AddCityScreen'
+                  : 'CitiesStackScreen'
+              }
+              component={
+                store.cities.length === 0 ? AddCityScreen : CitiesStackScreen
+              }
+              options={{
+                title: 'Favourites',
+                tabBarIcon: renderFilledFavouriteIcon,
+              }}
+            />
+          </Tab.Navigator>
+        </NavigationContainer>
+      </GestureHandlerRootView>
     </SafeAreaProvider>
   );
 }
