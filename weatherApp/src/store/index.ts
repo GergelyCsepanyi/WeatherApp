@@ -1,57 +1,45 @@
 import {makeAutoObservable} from 'mobx';
+import {CityResponse} from '../services/CitiesAPI';
 
 export type City = {
-  id: string;
+  city: string;
+  country: string;
+  countryCode: string;
+  id: number;
+  latitude: number;
+  longitude: number;
   name: string;
 };
 
-const addCity = (cities: City[], cityName: string): City[] => [
-  ...cities,
-  {
-    id: '',
-    name: cityName,
-  },
-];
+const addCity = (cities: City[], city: City): City[] => [...cities, city];
 
-const removeCity = (cities: City[], id: string): City[] =>
+const removeCity = (cities: City[], id: number): City[] =>
   cities.filter(city => city.id !== id);
 
 class Cities {
   cities: City[] = [
     {
-      id: '1',
-      name: 'Szeged',
-      //coordinates for the weather api
-    },
-    {
-      id: '2',
+      city: 'Putnok',
+      country: 'Hungary',
+      countryCode: 'HU',
+      id: 50009,
+      latitude: 48.293611111,
+      longitude: 20.436666666,
       name: 'Putnok',
     },
-    {
-      id: '3',
-      name: 'Miskolc',
-    },
   ];
-
-  //newCity: City = {id: '', name: ''};
 
   constructor() {
     makeAutoObservable(this);
   }
 
-  removeCity(id: string) {
+  removeCity(id: number) {
     this.cities = removeCity(this.cities, id);
   }
 
-  addCity(cityName: string) {
-    this.cities = addCity(this.cities, cityName);
+  addCity(city: CityResponse) {
+    this.cities = addCity(this.cities, city);
   }
-
-  // fetchCity(url: string) {
-  //   fetch(url)
-  //     .then(resp => resp.json())
-  //     .then(data => console.log(data));
-  // }
 }
 
 const store = new Cities();

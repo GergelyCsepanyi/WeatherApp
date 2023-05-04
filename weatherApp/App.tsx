@@ -5,12 +5,14 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import CitiesStackScreen from './src/screens/CitiesStackScreen';
-import {City} from './src/store';
+import store, {City} from './src/store';
 import CityScreen from './src/screens/CityScreen';
+import AddCityScreen from './src/screens/AddCityScreen';
 
 export type RootTabParamList = {
   CityScreen: {item: City};
   CitiesStackScreen: undefined;
+  AddCityScreen: undefined;
 };
 
 function App(): JSX.Element {
@@ -42,8 +44,12 @@ function App(): JSX.Element {
             //initialParams={{item: {id: '222', name: 'Budapest'}}}
           />
           <Tab.Screen
-            name="CitiesStackScreen"
-            component={CitiesStackScreen}
+            name={
+              store.cities.length === 0 ? 'AddCityScreen' : 'CitiesStackScreen'
+            }
+            component={
+              store.cities.length === 0 ? AddCityScreen : CitiesStackScreen
+            }
             options={{
               title: 'Favourites',
               tabBarIcon: renderFilledFavouriteIcon,

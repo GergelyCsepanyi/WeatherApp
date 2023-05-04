@@ -7,6 +7,7 @@ import {RootStackParamList} from '../CitiesStackScreen';
 import RenderIconButton from '../../components/RenderIconButton';
 import {FlatList} from 'react-native-gesture-handler';
 import {CityResponse, citiesApi} from '../../services/CitiesAPI';
+import store, {City} from '../../store';
 
 type AddCityScreenProps = NativeStackScreenProps<
   RootStackParamList,
@@ -14,17 +15,14 @@ type AddCityScreenProps = NativeStackScreenProps<
 >;
 
 const AddCityScreen = (props: AddCityScreenProps) => {
-  const [searchCity, setSearchCity] = useState('');
+  const [searchbarCityValue, setSearchbarCityValue] = useState('');
   const [isSearchBarFocused, setIsSearchBarFocused] = useState(false);
   const [foundCities, setFoundCities] = useState<CityResponse[]>([]);
+  const [selectedCity, setSelectedCity] = useState<CityResponse | null>(null);
 
   const handleClose = useCallback(() => {
     props.navigation.goBack();
   }, [props.navigation]);
-
-  // useEffect(() => {
-  //   console.log(foundCities);
-  // }, [foundCities]);
 
   useEffect(() => {
     props.navigation.setOptions({
@@ -39,50 +37,98 @@ const AddCityScreen = (props: AddCityScreenProps) => {
   }, [props.navigation, handleClose]);
 
   useEffect(() => {
-    if (searchCity) {
-      citiesApi.fetchCities(searchCity).then(result => {
+    if (searchbarCityValue) {
+      citiesApi.fetchCities(searchbarCityValue).then(result => {
         if (!result) {
           return;
         }
         setFoundCities(result);
       });
     }
-  }, [searchCity]);
+  }, [searchbarCityValue]);
+
+  const handleSearchStarted = () => {
+    setSelectedCity(null);
+  };
+
+  const handleCitySelection = (city: CityResponse) => {
+    setSelectedCity(city);
+    store.addCity(city);
+    setFoundCities([]);
+    setSearchbarCityValue('');
+  };
+
+  const renderFlatListEmptyItem = () => {
+    return (
+      <View>
+        <Text>No data found!</Text>
+      </View>
+    );
+  };
+
+  const renderFoundCitiesHeader = () => {
+    return (
+      <View>
+        <Text>{foundCities?.length > 0 ? 'Found Cities:' : null}</Text>
+      </View>
+    );
+  };
+  const renderFoundCitiesItem = (item: CityResponse) => {
+    return (
+      <TouchableOpacity onPress={() => handleCitySelection(item)}>
+        <Text>{`${item.name}, ${item.country}`}</Text>
+      </TouchableOpacity>
+    );
+  };
+
+  const renderFavouriteCitiesHeader = () => {
+    return (
+      <View>
+        <Text>{store.cities?.length > 0 ? 'Favourite Cities:' : null}</Text>
+      </View>
+    );
+  };
+  const renderFavouriteCitiesItem = (item: City) => {
+    return (
+      <TouchableOpacity>
+        <Text>{`${item.name}, ${item.country}`}</Text>
+      </TouchableOpacity>
+    );
+  };
 
   return (
     <SafeAreaView style={styles.containerStyle}>
       <SearchBar
         onCancel={() => setFoundCities([])}
-        onChangeText={setSearchCity}
+        onChangeText={setSearchbarCityValue}
         onClear={() => console.log('Search cleared')}
         //onEndEditing={}
-        onTouchStart={() => console.log('Search started')}
+        onTouchStart={handleSearchStarted}
         setIsSearchBarFocused={setIsSearchBarFocused}
         placeholder="Search City"
-        value={searchCity}
+        value={searchbarCityValue}
       />
       <Text>
-        {isSearchBarFocused ? (
+        {isSearchBarFocused || foundCities.length > 0 ? (
           <FlatList
             data={foundCities}
-            ListHeaderComponent={
-              <View>
-                <Text>{foundCities?.length > 0 ? 'Found Cities:' : null}</Text>
-              </View>
+            ListHeaderComponent={renderFoundCitiesHeader}
+            renderItem={({item}) => renderFoundCitiesItem(item)}
+            ListEmptyComponent={
+              searchbarCityValue !== '' ? renderFlatListEmptyItem : null
             }
-            renderItem={({item}) => (
-              <TouchableOpacity
-                onPress={() => console.log('Pressed city: ', item)}>
-                <Text>{`${item.name}, ${item.country}`}</Text>
-              </TouchableOpacity>
-            )}
           />
         ) : (
-          'NOT focused'
+          <FlatList
+            data={store.cities}
+            ListHeaderComponent={renderFavouriteCitiesHeader}
+            renderItem={({item}) => renderFavouriteCitiesItem(item)}
+            ListEmptyComponent={
+              searchbarCityValue !== '' ? renderFlatListEmptyItem : null
+            }
+          />
         )}
       </Text>
-      {/* if not focused -> render favourite cities 
-          else -> hide fav. cities */}
     </SafeAreaView>
   );
 };

@@ -60,6 +60,7 @@ const SearchBarComponent = (props: SearchBarComponentProps) => {
         onFocus={() => setIsFocus(true)}
         onBlur={() => setIsFocus(false)}
         ref={searchBarRef}
+        onKeyboardHide={() => console.log('keyboard is hidden')}
       />
       {isFocus ? <TextButton text="Cancel" onPress={handleCancel} /> : null}
     </View>
