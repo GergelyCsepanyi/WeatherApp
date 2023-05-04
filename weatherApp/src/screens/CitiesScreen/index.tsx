@@ -7,6 +7,7 @@ import SwiperFlatList from 'react-native-swiper-flatlist';
 import store from '../../store';
 import {RootStackParamList} from '../CitiesStackScreen';
 import RenderIconButton from '../../components/RenderIconButton';
+import {observer} from 'mobx-react';
 
 type CitiesScreenProps = NativeStackScreenProps<
   RootStackParamList,
@@ -51,4 +52,4 @@ const CitiesScreen = (props: CitiesScreenProps) => {
   );
 };
 
-export default CitiesScreen;
+export default observer(CitiesScreen);
