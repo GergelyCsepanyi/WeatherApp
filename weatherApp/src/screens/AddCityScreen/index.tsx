@@ -1,12 +1,35 @@
-import React, {useState, useEffect} from 'react';
-import {StyleSheet, Text, SafeAreaView, ActivityIndicator} from 'react-native';
-import SearchBarList from '../../components/SearchBarListTWO';
+import React, {useCallback, useEffect, useState} from 'react';
+import {Text, SafeAreaView} from 'react-native';
 import SearchBar from '../../components/Searchbar';
 import styles from './styles';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {RootStackParamList} from '../CitiesStackScreen';
+import RenderIconButton from '../../components/RenderIconButton';
 
-const AddCityModal = () => {
+type AddCityScreenProps = NativeStackScreenProps<
+  RootStackParamList,
+  'AddCityScreen'
+>;
+
+const AddCityScreen = (props: AddCityScreenProps) => {
   const [searchCity, setSearchCity] = useState('');
   const [isSearchBarFocused, setIsSearchBarFocused] = useState(false);
+
+  const handleClose = useCallback(() => {
+    props.navigation.goBack();
+  }, [props.navigation]);
+
+  useEffect(() => {
+    props.navigation.setOptions({
+      headerRight: () =>
+        RenderIconButton({
+          name: 'close',
+          size: 30,
+          color: 'black',
+          onPress: handleClose,
+        }),
+    });
+  }, [props.navigation, handleClose]);
 
   return (
     <SafeAreaView style={styles.containerStyle}>
@@ -27,4 +50,4 @@ const AddCityModal = () => {
   );
 };
 
-export default AddCityModal;
+export default AddCityScreen;

@@ -1,25 +1,16 @@
 import React from 'react';
-import {Image, SafeAreaView} from 'react-native';
 import {API_GEODB_CITIES_TOKEN} from '@env';
-import MainScreen from './src/screens/MainScreen';
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import FavouritesScreen from './src/screens/FavouritesScreen';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
-import IconButton from './src/components/IconButton';
-import AddCityModal from './src/screens/AddCityModal';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import CitiesStackScreen from './src/screens/CitiesStackScreen';
+import {City} from './src/store';
+import CityScreen from './src/screens/CityScreen';
 
 export type RootTabParamList = {
-  MainScreen: undefined;
-  FavouritesScreen: undefined;
-};
-
-export type RootStackParamList = {
-  FavouritesScreen: undefined;
-  AddCityModal: undefined;
-  modal: undefined;
+  CityScreen: {item: City};
+  CitiesStackScreen: undefined;
 };
 
 function App(): JSX.Element {
@@ -32,23 +23,6 @@ function App(): JSX.Element {
     <MaterialIcon name="room" size={30} color="black" />
   );
 
-  // const renderAddCityIcon = () => {
-  //   const Stack = createNativeStackNavigator<RootStackParamList>();
-  //   return (
-  //     <Stack.Navigator>
-  //       <Stack.Screen
-  //         name="modal"
-  //         component={
-  //           <IconButton
-  //             icon={<MaterialIcon name="queue" size={30} color="black" />}
-  //             onPress={() => console.log('PRESS')}
-  //           />
-  //         }
-  //       />
-  //     </Stack.Navigator>
-  //   );
-  // };
-
   return (
     <SafeAreaProvider>
       <NavigationContainer>
@@ -58,20 +32,21 @@ function App(): JSX.Element {
             headerTitle: '',
           }}>
           <Tab.Screen
-            name="MainScreen"
-            component={MainScreen}
+            name="CityScreen"
+            //component={CityScreen}
             options={{
               title: 'Location',
               tabBarIcon: renderLocationIcon,
             }}
+            children={() => CityScreen({city: {id: '222', name: 'Budapest'}})}
+            //initialParams={{item: {id: '222', name: 'Budapest'}}}
           />
           <Tab.Screen
-            name="FavouritesScreen"
-            component={FavouritesScreen}
+            name="CitiesStackScreen"
+            component={CitiesStackScreen}
             options={{
               title: 'Favourites',
               tabBarIcon: renderFilledFavouriteIcon,
-              // headerRight: renderAddCityIcon,
             }}
           />
         </Tab.Navigator>
