@@ -99,8 +99,15 @@ const AddCityScreen = (props: AddCityScreenProps) => {
   const renderFavouriteCitiesItem = ({item, drag, isActive}) => {
     return (
       <ScaleDecorator>
-        <TouchableOpacity onLongPress={drag} disabled={isActive}>
-          <Text>{`${item.name}, ${item.country}`}</Text>
+        <TouchableOpacity
+          onLongPress={drag}
+          disabled={isActive}
+          style={styles.favouriteCitiesItemContainer}>
+          <Text
+            style={
+              styles.favouriteCitiesItem
+            }>{`${item.name}, ${item.country}`}</Text>
+          <Text style={styles.favouriteCitiesIconStyle}>Icon</Text>
         </TouchableOpacity>
       </ScaleDecorator>
     );
@@ -130,6 +137,7 @@ const AddCityScreen = (props: AddCityScreenProps) => {
           />
         ) : (
           <DraggableFlatList
+            style={styles.favouriteCitiesListContainer}
             keyExtractor={item => String(item.id)}
             data={favouriteCitiesList}
             onDragEnd={({data}) => {
