@@ -9,6 +9,7 @@ import store, {City} from './src/store';
 import CityScreen from './src/screens/CityScreen';
 import AddCityScreen from './src/screens/AddCityScreen';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import styles from './src/themes/styles/AppStyles';
 
 export type RootTabParamList = {
   CityScreen: {item: City};
@@ -28,7 +29,7 @@ function App(): JSX.Element {
 
   return (
     <SafeAreaProvider>
-      <GestureHandlerRootView style={{flex: 1}}>
+      <GestureHandlerRootView style={styles.gestureHandlerRootView}>
         <NavigationContainer>
           <Tab.Navigator
             screenOptions={{

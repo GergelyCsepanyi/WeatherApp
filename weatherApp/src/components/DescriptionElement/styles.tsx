@@ -8,7 +8,11 @@ const styles = StyleSheet.create({
     borderBottomColor: Colors.grey,
     paddingBottom: 10,
   },
-  titleTextStyle: {fontSize: 20, fontWeight: 'bold'},
+  titleTextStyle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: Colors.defaultTextColor,
+  },
   descriptionTextStyle: {fontSize: 16, color: Colors.grey},
 });
 

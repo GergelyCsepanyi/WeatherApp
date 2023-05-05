@@ -9,9 +9,12 @@ import {FlatList} from 'react-native-gesture-handler';
 import {CityResponse, citiesApi} from '../../services/CitiesAPI';
 import store, {City} from '../../store';
 import DraggableFlatList, {
+  RenderItemParams,
   ScaleDecorator,
 } from 'react-native-draggable-flatlist';
 import {toJS} from 'mobx';
+import {Stack} from 'react-native-spacing-system';
+import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 
 type AddCityScreenProps = NativeStackScreenProps<
   RootStackParamList,
@@ -74,29 +77,35 @@ const AddCityScreen = (props: AddCityScreenProps) => {
     );
   };
 
-  const renderFoundCitiesHeader = () => {
-    return (
-      <View>
-        <Text>{foundCities?.length > 0 ? 'Found Cities:' : null}</Text>
-      </View>
-    );
-  };
   const renderFoundCitiesItem = (item: CityResponse) => {
     return (
-      <TouchableOpacity onPress={() => handleCitySelection(item)}>
-        <Text>{`${item.name}, ${item.country}`}</Text>
+      <TouchableOpacity
+        onPress={() => handleCitySelection(item)}
+        style={styles.foundCitiesItemContainer}>
+        <Text
+          style={
+            styles.foundCitiesItem
+          }>{`${item.name}, ${item.country}`}</Text>
       </TouchableOpacity>
     );
   };
 
   const renderFavouriteCitiesHeader = () => {
     return (
-      <View>
-        <Text>{store.cities?.length > 0 ? 'Favourite Cities:' : null}</Text>
+      <View style={styles.favouriteCitiesHeaderContainerStyle}>
+        <Text style={styles.favouriteCitiesHeaderTextStyle}>
+          {store.cities?.length > 0 ? 'Favourite Cities' : null}
+        </Text>
+        <Stack size={3} />
       </View>
     );
   };
-  const renderFavouriteCitiesItem = ({item, drag, isActive}) => {
+
+  const renderFavouriteCitiesItem = ({
+    item,
+    drag,
+    isActive,
+  }: RenderItemParams<City>) => {
     return (
       <ScaleDecorator>
         <TouchableOpacity
@@ -107,7 +116,7 @@ const AddCityScreen = (props: AddCityScreenProps) => {
             style={
               styles.favouriteCitiesItem
             }>{`${item.name}, ${item.country}`}</Text>
-          <Text style={styles.favouriteCitiesIconStyle}>Icon</Text>
+          <MaterialIcon name="menu" style={styles.favouriteCitiesIconStyle} />
         </TouchableOpacity>
       </ScaleDecorator>
     );
@@ -115,27 +124,40 @@ const AddCityScreen = (props: AddCityScreenProps) => {
 
   return (
     <SafeAreaView style={styles.containerStyle}>
+      <Stack size={10} />
       <SearchBar
         onCancel={() => setFoundCities([])}
         onChangeText={setSearchbarCityValue}
-        onClear={() => console.log('Search cleared')}
-        //onEndEditing={}
         onTouchStart={handleSearchStarted}
         setIsSearchBarFocused={setIsSearchBarFocused}
         placeholder="Search City"
         value={searchbarCityValue}
       />
-      <Text>
-        {isSearchBarFocused || foundCities.length > 0 ? (
+
+      {isSearchBarFocused || foundCities.length > 0 ? (
+        <View style={styles.foundCitiesContainer}>
+          <Stack size={0} />
+          <View style={styles.foundCitiesStartPlaceholder} />
           <FlatList
+            showsHorizontalScrollIndicator
+            style={styles.foundCitiesListContainer}
             data={foundCities}
-            ListHeaderComponent={renderFoundCitiesHeader}
             renderItem={({item}) => renderFoundCitiesItem(item)}
             ListEmptyComponent={
               searchbarCityValue !== '' ? renderFlatListEmptyItem : null
             }
           />
-        ) : (
+          <View
+            style={
+              isSearchBarFocused
+                ? styles.foundCitiesEndPlaceholderFocused
+                : styles.foundCitiesEndPlaceholder
+            }
+          />
+        </View>
+      ) : (
+        <>
+          <Stack size={10} />
           <DraggableFlatList
             style={styles.favouriteCitiesListContainer}
             keyExtractor={item => String(item.id)}
@@ -150,8 +172,8 @@ const AddCityScreen = (props: AddCityScreenProps) => {
               searchbarCityValue !== '' ? renderFlatListEmptyItem : null
             }
           />
-        )}
-      </Text>
+        </>
+      )}
     </SafeAreaView>
   );
 };

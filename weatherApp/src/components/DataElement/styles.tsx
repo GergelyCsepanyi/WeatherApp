@@ -9,10 +9,16 @@ const styles = StyleSheet.create({
     borderBottomWidth: 0.3,
     borderBottomColor: Colors.grey,
   },
-  dataKeyStyle: {flex: 3, fontSize: 16, fontWeight: '500'},
+  dataKeyStyle: {
+    flex: 3,
+    fontSize: 16,
+    fontWeight: '500',
+    color: Colors.defaultTextColor,
+  },
   iconStyle: {
     flex: 1,
     textAlign: 'center',
+    color: Colors.defaultTextColor,
   },
   dataValueStyle: {
     flex: 2,

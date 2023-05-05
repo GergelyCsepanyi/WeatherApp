@@ -3,4 +3,5 @@ export default {
   blue: 'blue',
   white: 'white',
   lightBlue: 'rgb(0, 122, 255)',
+  defaultTextColor: '#060D0D',
 };
