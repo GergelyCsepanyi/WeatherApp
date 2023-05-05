@@ -1,10 +1,10 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {ScrollView, Text, View} from 'react-native';
 import styles from './styles';
 import DataElement from '../DataElement';
 import {Stack} from 'react-native-spacing-system';
 import DescriptionElement from '../DescriptionElement';
-import {Weather} from '../../store/weather';
+import weatherStore, {Weather} from '../../store/weather';
 import {observer} from 'mobx-react';
 
 type DataSectionProps = {
@@ -13,15 +13,17 @@ type DataSectionProps = {
 
 const DataSection = (props: DataSectionProps) => {
   const {weather} = props;
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  //const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
+    weatherStore.setIsLoading(true);
     if (weather) {
-      setIsLoading(false);
+      weatherStore.setIsLoading(false);
+      console.log('Weather:', weather);
     }
   }, [weather]);
 
-  if (isLoading) {
+  if (weatherStore.isLoading || !weather) {
     return <Text>Loading</Text>;
   }
 
@@ -31,8 +33,8 @@ const DataSection = (props: DataSectionProps) => {
         <Stack size={20} />
         <DataElement
           dataKey="Temperature"
-          //dataValue={weather.main.temp.toString()}
-          dataValue={'asd'}
+          dataValue={weather.main.temp.toString()}
+          // dataValue={'asd'}
           renderIcon={true}
         />
         <Stack size={10} />

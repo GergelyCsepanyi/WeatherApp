@@ -18,16 +18,17 @@ type CityScreenProps = {
 
 const CityScreen = (props: CityScreenProps) => {
   const {city} = props;
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  // const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
+    weatherStore.setIsLoading(true);
     if (!city) {
       return;
     }
-    let result = weatherStore.getCurrentWeather(city.id);
+    let result = weatherStore.getCurrentWeather(city.name);
     console.log('result:', result);
     if (result) {
-      setIsLoading(false);
+      weatherStore.setIsLoading(false);
       return;
     }
     console.log('HERE');
@@ -40,20 +41,20 @@ const CityScreen = (props: CityScreenProps) => {
       )
       .then(res => {
         weatherStore.addWeather(res as Weather);
-        setIsLoading(false);
+        weatherStore.setIsLoading(false);
         console.log('weathers:', weatherStore.weathers);
       })
       .catch(err => console.log('ERR', err));
-  }, [city, weatherStore.weathers]);
+  }, [city]);
 
-  if (isLoading) {
+  if (weatherStore.isLoading) {
     return <Text>Loading</Text>;
   }
 
   return (
     <SafeAreaView style={styles.containerStyle}>
       <Header cityName={city.name} />
-      <DataSection weather={weatherStore.getCurrentWeather(city.id)} />
+      <DataSection weather={weatherStore.getCurrentWeather(city.name)} />
     </SafeAreaView>
   );
 };

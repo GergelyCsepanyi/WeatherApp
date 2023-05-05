@@ -14,8 +14,14 @@ const removeWeather = (weathers: Weather[], id: number): Weather[] =>
 class Weathers {
   weathers: Weather[] = [];
 
+  isLoading = true;
+
   constructor() {
     makeAutoObservable(this);
+  }
+
+  setIsLoading(value: boolean) {
+    this.isLoading = value;
   }
 
   removeWeather(id: number) {
@@ -36,8 +42,8 @@ class Weathers {
     addWeather(this.weathers, weather);
   }
 
-  getCurrentWeather(cityID: number) {
-    const result = this.weathers.find(weather => weather.id === cityID);
+  getCurrentWeather(cityName: string) {
+    const result = this.weathers.find(weather => weather.name === cityName);
     if (!result) {
       return null;
     }

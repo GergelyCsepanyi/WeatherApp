@@ -56,6 +56,7 @@ function App(): JSX.Element {
           if (res && res.length > 0) {
             //setCurrentCity(res[0]);
             cityStore.currentCity = res[0];
+            console.log('currentCity', cityStore.currentCity.city);
           }
           // else {
           //   setCurrentCity(cityStore.defaultCity);
@@ -107,4 +108,4 @@ function App(): JSX.Element {
   );
 }
 
-export default App;
+export default observer(App);
