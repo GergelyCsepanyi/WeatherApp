@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {API_GEODB_CITIES_TOKEN} from '@env';
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
@@ -10,6 +10,13 @@ import CityScreen from './src/screens/CityScreen';
 import AddCityScreen from './src/screens/AddCityScreen';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import styles from './src/themes/styles/AppStyles';
+import {
+  WeatherLangs,
+  WeatherResponse,
+  WeatherUnits,
+  weatherApi,
+} from './src/services/WeatherAPI';
+import {observable} from 'mobx';
 
 export type RootTabParamList = {
   CityScreen: {item: City};
@@ -26,6 +33,25 @@ function App(): JSX.Element {
   const renderLocationIcon = () => (
     <MaterialIcon name="room" size={30} color="black" />
   );
+
+  const [currentCityWeather, setCurrentCityWeather] =
+    useState<WeatherResponse>();
+
+  useEffect(() => {
+    // make a gps fetch and set the data to store.currentCity
+  }, []);
+
+  useEffect(() => {
+    const city = store.currentCity;
+    weatherApi
+      .fetchWeather(
+        city.longitude,
+        city.latitude,
+        WeatherUnits.Celsuis,
+        WeatherLangs.EN,
+      )
+      .then(data => console.log('Weather:', data));
+  }, [store.currentCity]);
 
   return (
     <SafeAreaProvider>

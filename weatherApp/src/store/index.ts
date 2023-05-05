@@ -2,13 +2,13 @@ import {makeAutoObservable} from 'mobx';
 import {CityResponse} from '../services/CitiesAPI';
 
 export type City = {
+  id: number;
+  name: string;
   city: string;
   country: string;
   countryCode: string;
-  id: number;
   latitude: number;
   longitude: number;
-  name: string;
 };
 
 const addCity = (cities: City[], city: City): City[] => [...cities, city];
@@ -17,17 +17,21 @@ const removeCity = (cities: City[], id: number): City[] =>
   cities.filter(city => city.id !== id);
 
 class Cities {
-  cities: City[] = [
-    {
-      city: 'Putnok',
-      country: 'Hungary',
-      countryCode: 'HU',
-      id: 50009,
-      latitude: 48.293611111,
-      longitude: 20.436666666,
-      name: 'Putnok',
-    },
-  ];
+  private defaultCity = {
+    city: 'Putnok',
+    country: 'Hungary',
+    countryCode: 'HU',
+    id: 50009,
+    latitude: 48.293611111,
+    longitude: 20.436666666,
+    name: 'Putnok',
+  };
+
+  cities: City[] = [this.defaultCity];
+
+  // private currentCity: City;
+
+  currentCity = this.defaultCity;
 
   constructor() {
     makeAutoObservable(this);
@@ -47,6 +51,18 @@ class Cities {
   replaceCities(cities: City[]) {
     this.cities = cities;
   }
+
+  // getCurrentCity() {
+  //   if (this.currentCity) {
+  //     return this.currentCity;
+  //   } else {
+  //     return this.defaultCity;
+  //   }
+  // }
+
+  // setCurrentCity(city: City) {
+  //   this.currentCity = city;
+  // }
 }
 
 const store = new Cities();
