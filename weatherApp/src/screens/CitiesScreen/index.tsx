@@ -4,7 +4,7 @@ import styles from './styles';
 import {View, useWindowDimensions} from 'react-native';
 import CityScreen from '../CityScreen';
 import SwiperFlatList from 'react-native-swiper-flatlist';
-import store from '../../store';
+import cirtStore from '../../store/city';
 import {RootStackParamList} from '../CitiesStackScreen';
 import RenderIconButton from '../../components/RenderIconButton';
 import {observer} from 'mobx-react';
@@ -41,7 +41,7 @@ const CitiesScreen = (props: CitiesScreenProps) => {
         //autoplayLoop
         index={0}
         showPagination
-        data={store.cities}
+        data={cirtStore.cities}
         renderItem={({item}) => (
           <View style={[styles.swiperChildStyle, {width}]}>
             <CityScreen city={item} />

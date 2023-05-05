@@ -5,7 +5,7 @@ import {
   API_GEODB_CITIES_TOKEN_KEY,
   API_GEODB_CITIES_TOKEN_VALUE,
 } from '@env';
-import {request} from './apiManager';
+import {APIType, request} from './apiManager';
 
 const URL = API_GEODB_CITIES_URL;
 const HOST_KEY = API_GEODB_CITIES_HOST_KEY;
@@ -31,7 +31,18 @@ export type CityResponse = {
 
 export interface CitiesApiInterface {
   fetchCities: (cityPrefix: string) => Promise<CityResponse[] | null>;
+  fetchCitiesByLocation: (
+    latitude: number,
+    longitude: number,
+  ) => Promise<CityResponse[] | null>;
 }
+
+const formatValue = (value: number): string => {
+  if (value >= 0) {
+    return `%2B${value}`;
+  }
+  return value.toString();
+};
 
 class CitiesApi implements CitiesApiInterface {
   fetchCities = (cityPrefix: string) => {
@@ -44,8 +55,21 @@ class CitiesApi implements CitiesApiInterface {
       },
     };
 
-    return request<CityResponse[]>(url, options);
+    return request<CityResponse[]>(APIType.citiesAPI, url, options);
+  };
+
+  fetchCitiesByLocation = (latitude: number, longitude: number) => {
+    const location = `${formatValue(latitude)}${formatValue(longitude)}`;
+    const url = `${URL}?location=${location}`;
+    const options = {
+      method: 'GET',
+      headers: {
+        [HOST_KEY]: HOST_VALUE,
+        [TOKEN_KEY]: TOKEN_VALUE,
+      },
+    };
+
+    return request<CityResponse[]>(APIType.citiesAPI, url, options);
   };
 }
-
 export const citiesApi = new CitiesApi();

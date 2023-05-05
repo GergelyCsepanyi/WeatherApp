@@ -1,16 +1,40 @@
-import React from 'react';
-import {ScrollView, View} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {ScrollView, Text, View} from 'react-native';
 import styles from './styles';
 import DataElement from '../DataElement';
 import {Stack} from 'react-native-spacing-system';
 import DescriptionElement from '../DescriptionElement';
+import {Weather} from '../../store/weather';
+import {observer} from 'mobx-react';
 
-const DataSection = () => {
+type DataSectionProps = {
+  weather: Weather;
+};
+
+const DataSection = (props: DataSectionProps) => {
+  const {weather} = props;
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    if (weather) {
+      setIsLoading(false);
+    }
+  }, [weather]);
+
+  if (isLoading) {
+    return <Text>Loading</Text>;
+  }
+
   return (
     <View>
       <ScrollView style={styles.containerStyle}>
         <Stack size={20} />
-        <DataElement dataKey="Data" dataValue="temperature" renderIcon={true} />
+        <DataElement
+          dataKey="Temperature"
+          //dataValue={weather.main.temp.toString()}
+          dataValue={'asd'}
+          renderIcon={true}
+        />
         <Stack size={10} />
         <DataElement dataKey="Data" dataValue="temperature" />
         <Stack size={10} />
@@ -28,4 +52,4 @@ const DataSection = () => {
   );
 };
 
-export default DataSection;
+export default observer(DataSection);

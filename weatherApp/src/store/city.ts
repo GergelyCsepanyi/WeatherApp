@@ -17,7 +17,7 @@ const removeCity = (cities: City[], id: number): City[] =>
   cities.filter(city => city.id !== id);
 
 class Cities {
-  private defaultCity = {
+  readonly defaultCity = {
     city: 'Putnok',
     country: 'Hungary',
     countryCode: 'HU',

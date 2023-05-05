@@ -7,7 +7,7 @@ import {RootStackParamList} from '../CitiesStackScreen';
 import RenderIconButton from '../../components/RenderIconButton';
 import {FlatList} from 'react-native-gesture-handler';
 import {CityResponse, citiesApi} from '../../services/CitiesAPI';
-import store, {City} from '../../store';
+import store, {City} from '../../store/city';
 import DraggableFlatList, {
   RenderItemParams,
   ScaleDecorator,

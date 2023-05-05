@@ -1,5 +1,5 @@
 import {API_CURRENTWEATHER_TOKEN, API_CURRENTWEATHER_URL} from '@env';
-import {request} from './apiManager';
+import {APIType, request} from './apiManager';
 
 const URL = API_CURRENTWEATHER_URL;
 const TOKEN = API_CURRENTWEATHER_TOKEN;
@@ -19,7 +19,7 @@ export enum WeatherLangs {
 
 export enum WeatherUnits {
   Kelvin = 'standard',
-  Celsuis = 'metric',
+  Celsius = 'metric',
   Fahrenheit = 'imperial',
 }
 
@@ -84,12 +84,12 @@ class WeatherApi implements WeatherApiInterface {
     units: WeatherUnits,
     lang: WeatherLangs,
   ) => {
-    const url = `${URL}?lat=${latitude}?lon=${longitude}?units=${units}?lang=${lang}?appid=${TOKEN}`;
+    const url = `${URL}?lat=${latitude}&lon=${longitude}&units=${units}&lang=${lang}&appid=${TOKEN}`;
     const options = {
       method: 'GET',
     };
 
-    return request<WeatherResponse>(url, options);
+    return request<WeatherResponse>(APIType.weatherAPI, url, options);
   };
 }
 
