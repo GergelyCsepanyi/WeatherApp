@@ -88,7 +88,7 @@ class WeatherApi implements WeatherApiInterface {
     const options = {
       method: 'GET',
     };
-
+    // console.log(url);
     return request<WeatherResponse>(APIType.weatherAPI, url, options);
   };
 }

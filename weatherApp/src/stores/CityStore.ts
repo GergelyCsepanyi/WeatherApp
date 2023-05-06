@@ -16,7 +16,7 @@ const addCity = (cities: City[], city: City): City[] => [...cities, city];
 const removeCity = (cities: City[], id: number): City[] =>
   cities.filter(city => city.id !== id);
 
-class Cities {
+export class CityStore {
   readonly defaultCity = {
     city: 'Putnok',
     country: 'Hungary',
@@ -43,10 +43,11 @@ class Cities {
   }
 
   addCity(city: CityResponse) {
-    if (this.cities.find(currentCity => currentCity.id === city.id)) {
-      return;
-    }
     this.cities = addCity(this.cities, city);
+    // if (this.cities.find(currentCity => currentCity.id === city.id)) {
+    //   return;
+    // }
+    console.log('cities after add:', this.cities);
   }
 
   replaceCities(cities: City[]) {
@@ -65,7 +66,3 @@ class Cities {
   //   this.currentCity = city;
   // }
 }
-
-const store = new Cities();
-
-export default store;

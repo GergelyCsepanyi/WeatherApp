@@ -4,9 +4,9 @@ import styles from './styles';
 import {View, useWindowDimensions} from 'react-native';
 import CityScreen from '../CityScreen';
 import SwiperFlatList from 'react-native-swiper-flatlist';
-import cirtStore from '../../store/city';
 import {RootStackParamList} from '../CitiesStackScreen';
 import RenderIconButton from '../../components/RenderIconButton';
+import {useCityStore} from '../../contexts/StoreContext';
 import {observer} from 'mobx-react';
 
 type CitiesScreenProps = NativeStackScreenProps<
@@ -16,6 +16,9 @@ type CitiesScreenProps = NativeStackScreenProps<
 
 const CitiesScreen = (props: CitiesScreenProps) => {
   const width = useWindowDimensions().width;
+  const cityStore = useCityStore();
+
+  // const [cities, setCities] = useState<City[]>(cityStore.cities);
 
   const handlePress = useCallback(() => {
     props.navigation.navigate('AddCityScreen');
@@ -33,15 +36,29 @@ const CitiesScreen = (props: CitiesScreenProps) => {
     });
   }, [props, handlePress]);
 
+  // useEffect(() => {
+  //   setCities(cityStore.cities);
+  //   console.log('cities changed, new cityStore.cities:', cityStore.cities);
+  //   console.log('cities changed, new cities:', cities);
+  // }, [cityStore, cityStore.cities]);
+
   return (
     <View style={styles.swiperContainerStyle}>
+      {/* <FlatList
+        data={cities}
+        renderItem={({item}) => (
+          <View style={[styles.swiperChildStyle, {width}]}>
+            <CityScreen city={item} />
+          </View>
+        )}
+      /> */}
       <SwiperFlatList
         //autoplay
         //autoplayDelay={2}
         //autoplayLoop
         index={0}
         showPagination
-        data={cirtStore.cities}
+        data={cityStore.cities}
         renderItem={({item}) => (
           <View style={[styles.swiperChildStyle, {width}]}>
             <CityScreen city={item} />

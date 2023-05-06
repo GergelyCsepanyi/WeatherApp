@@ -1,11 +1,11 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {ScrollView, Text, View} from 'react-native';
 import styles from './styles';
 import DataElement from '../DataElement';
 import {Stack} from 'react-native-spacing-system';
 import DescriptionElement from '../DescriptionElement';
-import weatherStore, {Weather} from '../../store/weather';
-import {observer} from 'mobx-react';
+import {Weather} from '../../stores/WeatherStore';
+import {useWeatherStore} from '../../contexts/StoreContext';
 
 type DataSectionProps = {
   weather: Weather;
@@ -13,17 +13,18 @@ type DataSectionProps = {
 
 const DataSection = (props: DataSectionProps) => {
   const {weather} = props;
-  //const [isLoading, setIsLoading] = useState<boolean>(true);
+  const weatherStore = useWeatherStore();
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    weatherStore.setIsLoading(true);
+    setIsLoading(true);
     if (weather) {
-      weatherStore.setIsLoading(false);
+      setIsLoading(false);
       console.log('Weather:', weather);
     }
-  }, [weather]);
+  }, [weather, weatherStore]);
 
-  if (weatherStore.isLoading || !weather) {
+  if (isLoading || !weather) {
     return <Text>Loading</Text>;
   }
 
@@ -54,4 +55,4 @@ const DataSection = (props: DataSectionProps) => {
   );
 };
 
-export default observer(DataSection);
+export default DataSection;

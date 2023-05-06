@@ -7,7 +7,7 @@ import {RootStackParamList} from '../CitiesStackScreen';
 import RenderIconButton from '../../components/RenderIconButton';
 import {FlatList} from 'react-native-gesture-handler';
 import {CityResponse, citiesApi} from '../../services/CitiesAPI';
-import store, {City} from '../../store/city';
+import {City} from '../../stores/CityStore';
 import DraggableFlatList, {
   RenderItemParams,
   ScaleDecorator,
@@ -15,6 +15,8 @@ import DraggableFlatList, {
 import {toJS} from 'mobx';
 import {Stack} from 'react-native-spacing-system';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
+import {useCityStore} from '../../contexts/StoreContext';
+import {observer} from 'mobx-react';
 
 type AddCityScreenProps = NativeStackScreenProps<
   RootStackParamList,
@@ -22,13 +24,15 @@ type AddCityScreenProps = NativeStackScreenProps<
 >;
 
 const AddCityScreen = (props: AddCityScreenProps) => {
+  const cityStore = useCityStore();
+
   const [searchbarCityValue, setSearchbarCityValue] = useState('');
   const [isSearchBarFocused, setIsSearchBarFocused] = useState(false);
   const [foundCities, setFoundCities] = useState<CityResponse[]>([]);
-  const [selectedCity, setSelectedCity] = useState<CityResponse | null>(null);
-  const [favouriteCitiesList, setFavouriteCitiesList] = useState<City[]>(
-    toJS(store.cities),
-  );
+  // const [selectedCity, setSelectedCity] = useState<CityResponse | null>(null);
+  // const [favouriteCitiesList, setFavouriteCitiesList] = useState<City[]>(
+  //   toJS(cityStore.cities),
+  // );
 
   const handleClose = useCallback(() => {
     props.navigation.goBack();
@@ -57,14 +61,19 @@ const AddCityScreen = (props: AddCityScreenProps) => {
     }
   }, [searchbarCityValue]);
 
-  const handleSearchStarted = () => {
-    setSelectedCity(null);
+  // const handleSearchStarted = () => {
+  //   setSelectedCity(null);
+  // };
+
+  const handleSearchBarCancel = () => {
+    setFoundCities([]);
   };
 
   const handleCitySelection = (city: CityResponse) => {
-    setSelectedCity(city);
-    store.addCity(city);
-    setFavouriteCitiesList(toJS(store.cities));
+    console.log('ADD this city:', city);
+    // setSelectedCity(city);
+    cityStore.addCity(city);
+    // setFavouriteCitiesList(toJS(cityStore.cities));
     setFoundCities([]);
     setSearchbarCityValue('');
   };
@@ -94,7 +103,7 @@ const AddCityScreen = (props: AddCityScreenProps) => {
     return (
       <View style={styles.favouriteCitiesHeaderContainerStyle}>
         <Text style={styles.favouriteCitiesHeaderTextStyle}>
-          {store.cities?.length > 0 ? 'Favourite Cities' : null}
+          {cityStore.cities?.length > 0 ? 'Favourite Cities' : null}
         </Text>
         <Stack size={3} />
       </View>
@@ -126,9 +135,9 @@ const AddCityScreen = (props: AddCityScreenProps) => {
     <SafeAreaView style={styles.containerStyle}>
       <Stack size={10} />
       <SearchBar
-        onCancel={() => setFoundCities([])}
+        onCancel={handleSearchBarCancel}
         onChangeText={setSearchbarCityValue}
-        onTouchStart={handleSearchStarted}
+        // onTouchStart={handleSearchStarted}
         setIsSearchBarFocused={setIsSearchBarFocused}
         placeholder="Search City"
         value={searchbarCityValue}
@@ -161,10 +170,11 @@ const AddCityScreen = (props: AddCityScreenProps) => {
           <DraggableFlatList
             style={styles.favouriteCitiesListContainer}
             keyExtractor={item => String(item.id)}
-            data={favouriteCitiesList}
+            // data={favouriteCitiesList}
+            data={toJS(cityStore.cities)}
             onDragEnd={({data}) => {
-              store.replaceCities(data as City[]);
-              setFavouriteCitiesList(toJS(store.cities));
+              cityStore.replaceCities(data as City[]);
+              // setFavouriteCitiesList(toJS(cityStore.cities));
             }}
             ListHeaderComponent={renderFavouriteCitiesHeader}
             renderItem={renderFavouriteCitiesItem}
@@ -178,4 +188,4 @@ const AddCityScreen = (props: AddCityScreenProps) => {
   );
 };
 
-export default AddCityScreen;
+export default observer(AddCityScreen);

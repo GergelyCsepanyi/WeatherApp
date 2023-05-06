@@ -3,14 +3,14 @@ import styles from './styles';
 import {SafeAreaView, Text} from 'react-native';
 import Header from '../../components/Header';
 import DataSection from '../../components/DataSection';
-import {City} from '../../store/city';
-import weatherStore, {Weather} from '../../store/weather';
+import {City} from '../../stores/CityStore';
+import {Weather} from '../../stores/WeatherStore';
 import {
   WeatherLangs,
   WeatherUnits,
   weatherApi,
 } from '../../services/WeatherAPI';
-import {observer} from 'mobx-react';
+import {useWeatherStore} from '../../contexts/StoreContext';
 
 type CityScreenProps = {
   city: City;
@@ -18,17 +18,23 @@ type CityScreenProps = {
 
 const CityScreen = (props: CityScreenProps) => {
   const {city} = props;
-  // const [isLoading, setIsLoading] = useState<boolean>(true);
+  const weatherStore = useWeatherStore();
+
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string>('');
+  const [currentWeather, setCurrentWeather] = useState<Weather>();
 
   useEffect(() => {
-    weatherStore.setIsLoading(true);
+    setIsLoading(true);
     if (!city) {
+      setError(`There is no city param: ${city}`);
       return;
     }
     let result = weatherStore.getCurrentWeather(city.name);
     console.log('result:', result);
     if (result) {
-      weatherStore.setIsLoading(false);
+      setIsLoading(false);
+      setCurrentWeather(result);
       return;
     }
     console.log('HERE');
@@ -40,23 +46,31 @@ const CityScreen = (props: CityScreenProps) => {
         WeatherLangs.EN,
       )
       .then(res => {
-        weatherStore.addWeather(res as Weather);
-        weatherStore.setIsLoading(false);
-        console.log('weathers:', weatherStore.weathers);
+        if (res !== null) {
+          console.log('RES:', res);
+          weatherStore.addWeather(res as Weather);
+          setIsLoading(false);
+          setCurrentWeather(res);
+          console.log('weathers:', weatherStore.weathers);
+        }
       })
       .catch(err => console.log('ERR', err));
-  }, [city]);
+  }, [city, weatherStore]);
 
-  if (weatherStore.isLoading) {
+  if (isLoading || !currentWeather) {
     return <Text>Loading</Text>;
+  }
+
+  if (error) {
+    return <Text>Error: {error}</Text>;
   }
 
   return (
     <SafeAreaView style={styles.containerStyle}>
       <Header cityName={city.name} />
-      <DataSection weather={weatherStore.getCurrentWeather(city.name)} />
+      <DataSection weather={currentWeather} />
     </SafeAreaView>
   );
 };
 
-export default observer(CityScreen);
+export default CityScreen;
