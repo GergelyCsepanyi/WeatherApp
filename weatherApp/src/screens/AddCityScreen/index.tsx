@@ -29,10 +29,6 @@ const AddCityScreen = (props: AddCityScreenProps) => {
   const [searchbarCityValue, setSearchbarCityValue] = useState('');
   const [isSearchBarFocused, setIsSearchBarFocused] = useState(false);
   const [foundCities, setFoundCities] = useState<CityResponse[]>([]);
-  // const [selectedCity, setSelectedCity] = useState<CityResponse | null>(null);
-  // const [favouriteCitiesList, setFavouriteCitiesList] = useState<City[]>(
-  //   toJS(cityStore.cities),
-  // );
 
   const handleClose = useCallback(() => {
     props.navigation.goBack();
@@ -61,19 +57,12 @@ const AddCityScreen = (props: AddCityScreenProps) => {
     }
   }, [searchbarCityValue]);
 
-  // const handleSearchStarted = () => {
-  //   setSelectedCity(null);
-  // };
-
   const handleSearchBarCancel = () => {
     setFoundCities([]);
   };
 
   const handleCitySelection = (city: CityResponse) => {
-    console.log('ADD this city:', city);
-    // setSelectedCity(city);
     cityStore.addCity(city);
-    // setFavouriteCitiesList(toJS(cityStore.cities));
     setFoundCities([]);
     setSearchbarCityValue('');
   };
@@ -137,7 +126,6 @@ const AddCityScreen = (props: AddCityScreenProps) => {
       <SearchBar
         onCancel={handleSearchBarCancel}
         onChangeText={setSearchbarCityValue}
-        // onTouchStart={handleSearchStarted}
         setIsSearchBarFocused={setIsSearchBarFocused}
         placeholder="Search City"
         value={searchbarCityValue}
@@ -174,7 +162,6 @@ const AddCityScreen = (props: AddCityScreenProps) => {
             data={toJS(cityStore.cities)}
             onDragEnd={({data}) => {
               cityStore.replaceCities(data as City[]);
-              // setFavouriteCitiesList(toJS(cityStore.cities));
             }}
             ListHeaderComponent={renderFavouriteCitiesHeader}
             renderItem={renderFavouriteCitiesItem}

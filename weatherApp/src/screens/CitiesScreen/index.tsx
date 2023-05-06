@@ -18,8 +18,6 @@ const CitiesScreen = (props: CitiesScreenProps) => {
   const width = useWindowDimensions().width;
   const cityStore = useCityStore();
 
-  // const [cities, setCities] = useState<City[]>(cityStore.cities);
-
   const handlePress = useCallback(() => {
     props.navigation.navigate('AddCityScreen');
   }, [props.navigation]);
@@ -35,12 +33,6 @@ const CitiesScreen = (props: CitiesScreenProps) => {
         }),
     });
   }, [props, handlePress]);
-
-  // useEffect(() => {
-  //   setCities(cityStore.cities);
-  //   console.log('cities changed, new cityStore.cities:', cityStore.cities);
-  //   console.log('cities changed, new cities:', cities);
-  // }, [cityStore, cityStore.cities]);
 
   return (
     <View style={styles.swiperContainerStyle}>

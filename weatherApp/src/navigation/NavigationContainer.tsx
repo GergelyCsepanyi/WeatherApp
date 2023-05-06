@@ -6,10 +6,9 @@ import {City} from '../stores/CityStore';
 import CityScreen from '../screens/CityScreen';
 import AddCityScreen from '../screens/AddCityScreen';
 import CitiesStackScreen from '../screens/CitiesStackScreen';
-import Geolocation from '@react-native-community/geolocation';
-import {citiesApi} from '../services/CitiesAPI';
 import {useCityStore} from '../contexts/StoreContext';
 import {Text} from 'react-native';
+import {observer} from 'mobx-react';
 
 export type RootTabParamList = {
   CityScreen: {item: City};
@@ -31,43 +30,14 @@ const NavigationComponentContainer = () => {
     <MaterialIcon name="room" size={30} color="black" />
   );
 
-  const [currentPosition, setCurrentPosition] = useState<{
-    latitude: number;
-    longitude: number;
-  }>();
-
-  //const [currentCity, setCurrentCity] = useState<City>(cityStore.defaultCity);
-
   useEffect(() => {
-    Geolocation.getCurrentPosition(info =>
-      setCurrentPosition({
-        latitude: info.coords.latitude,
-        longitude: info.coords.longitude,
-      }),
-    );
-  }, []);
-
-  useEffect(() => {
-    if (currentPosition?.latitude && currentPosition?.longitude) {
-      setIsLoading(true);
-      citiesApi
-        .fetchCitiesByLocation(
-          currentPosition.latitude,
-          currentPosition.longitude,
-        )
-        .then(res => {
-          if (res && res.length > 0) {
-            //setCurrentCity(res[0]);
-            cityStore.currentCity = res[0];
-            console.log('currentCity', cityStore.currentCity.city);
-            setIsLoading(false);
-          }
-          // else {
-          //   setCurrentCity(cityStore.defaultCity);
-          // }
-        });
+    if (
+      cityStore.currentPosition?.latitude &&
+      cityStore.currentPosition?.longitude
+    ) {
+      cityStore.changeCurrentCity().then(() => setIsLoading(false));
     }
-  }, [currentPosition, cityStore]);
+  }, [cityStore, cityStore.currentPosition]);
 
   if (isLoading) {
     return <Text>Loading</Text>;
@@ -108,4 +78,4 @@ const NavigationComponentContainer = () => {
   );
 };
 
-export default NavigationComponentContainer;
+export default observer(NavigationComponentContainer);

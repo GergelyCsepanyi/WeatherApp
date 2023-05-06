@@ -30,7 +30,7 @@ const CityScreen = (props: CityScreenProps) => {
       setError(`There is no city param: ${city}`);
       return;
     }
-    let result = weatherStore.getCurrentWeather(city.name);
+    let result = weatherStore.getWeather(city.name);
     console.log('result:', result);
     if (result) {
       setIsLoading(false);
