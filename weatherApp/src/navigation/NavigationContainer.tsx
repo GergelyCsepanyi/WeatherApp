@@ -6,9 +6,11 @@ import {City} from '../stores/CityStore';
 import CityScreen from '../screens/CityScreen';
 import AddCityScreen from '../screens/AddCityScreen';
 import CitiesStackScreen from '../screens/CitiesStackScreen';
-import {useCityStore} from '../contexts/StoreContext';
+import {useCityStore, useLanguageStore} from '../contexts/StoreContext';
 import {Text} from 'react-native';
 import {observer} from 'mobx-react';
+import string, {Languages, languages} from '../localization';
+import Dropdown from '../components/Dropdown';
 
 export type RootTabParamList = {
   CityScreen: {item: City};
@@ -19,6 +21,7 @@ export type RootTabParamList = {
 const NavigationComponentContainer = () => {
   const Tab = createBottomTabNavigator<RootTabParamList>();
 
+  const languageStore = useLanguageStore();
   const cityStore = useCityStore();
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -29,14 +32,21 @@ const NavigationComponentContainer = () => {
   const renderLocationIcon = () => (
     <MaterialIcon name="room" size={30} color="black" />
   );
+  const renderLangChange = () => (
+    <Dropdown
+      data={languages}
+      handleDropdownChange={handleLanguageChange}
+      label="lang"
+      value={languageStore.language}
+    />
+  );
+
+  const handleLanguageChange = (lang: Languages) => {
+    languageStore.changeLanguage(lang.value);
+  };
 
   useEffect(() => {
-    if (
-      cityStore.currentPosition?.latitude &&
-      cityStore.currentPosition?.longitude
-    ) {
-      cityStore.changeCurrentCity().then(() => setIsLoading(false));
-    }
+    cityStore.changeCurrentCity().then(() => setIsLoading(false));
   }, [cityStore, cityStore.currentPosition]);
 
   if (isLoading) {
@@ -49,15 +59,16 @@ const NavigationComponentContainer = () => {
         screenOptions={{
           headerShown: true,
           headerTitle: '',
+          headerLeft: renderLangChange,
         }}>
         <Tab.Screen
           name="CityScreen"
           options={{
-            title: 'Location',
+            title: string.locationTabTitle,
             tabBarIcon: renderLocationIcon,
           }}
           children={() => <CityScreen city={cityStore.currentCity as City} />}
-          //initialParams={{item: {id: '222', name: 'Budapest'}}}
+          // children={() => renderLangChange()}
         />
         <Tab.Screen
           name={
@@ -69,7 +80,7 @@ const NavigationComponentContainer = () => {
             cityStore.cities.length === 0 ? AddCityScreen : CitiesStackScreen
           }
           options={{
-            title: 'Favourites',
+            title: string.favouritesTabTitle,
             tabBarIcon: renderFilledFavouriteIcon,
           }}
         />

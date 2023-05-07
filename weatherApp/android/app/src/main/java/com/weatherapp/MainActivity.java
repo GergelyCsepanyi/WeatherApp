@@ -18,6 +18,9 @@ public class MainActivity extends ReactActivity {
     return "weatherApp";
   }
 
+  
+
+
 @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(null);

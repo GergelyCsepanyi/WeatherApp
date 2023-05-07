@@ -22,3 +22,5 @@ export function useRootStore() {
 export const useCityStore = () => useRootStore().cityStore;
 
 export const useWeatherStore = () => useRootStore().weatherStore;
+
+export const useLanguageStore = () => useRootStore().languageStore;

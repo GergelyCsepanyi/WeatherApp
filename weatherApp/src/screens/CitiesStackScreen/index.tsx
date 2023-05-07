@@ -2,6 +2,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
 import AddCityScreen from '../AddCityScreen';
 import CitiesScreen from '../CitiesScreen';
+import {observer} from 'mobx-react';
 
 export type RootStackParamList = {
   CitiesScreen: undefined;
@@ -27,4 +28,4 @@ const CitiesStackScreen = () => {
   );
 };
 
-export default CitiesStackScreen;
+export default observer(CitiesStackScreen);

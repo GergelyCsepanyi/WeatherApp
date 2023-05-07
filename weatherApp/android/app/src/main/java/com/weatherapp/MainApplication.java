@@ -10,7 +10,19 @@ import com.facebook.react.defaults.DefaultReactNativeHost;
 import com.facebook.soloader.SoLoader;
 import java.util.List;
 
+// import com.babisoft.ReactNativeLocalization.ReactNativeLocalizationPackage;
+
+
 public class MainApplication extends Application implements ReactApplication {
+
+
+    // @Override
+    // protected List<ReactPackage> getPackages() {
+    //   return Arrays.<ReactPackage>asList(
+    //       new MainReactPackage(),
+    //       new ReactNativeLocalizationPackage()
+    //   );
+    // }
 
   private final ReactNativeHost mReactNativeHost =
       new DefaultReactNativeHost(this) {

@@ -61,20 +61,33 @@ export class CityStore {
   constructor() {
     makeAutoObservable(this);
 
-    Geolocation.getCurrentPosition(info =>
-      this.changeCurrentPosition({
-        latitude: info.coords.latitude,
-        longitude: info.coords.longitude,
-      }),
-    );
+    this.getCurrentPosition();
   }
 
-  changeCurrentPosition(position: Position) {
+  private setCurrentPosition(position: Position) {
     this.currentPosition = position;
+  }
+
+  getCurrentPosition() {
+    console.log('start GPS, currPosition:', this.currentPosition);
+
+    Geolocation.getCurrentPosition(
+      info =>
+        this.setCurrentPosition({
+          latitude: info.coords.latitude,
+          longitude: info.coords.longitude,
+        }),
+      error => {
+        console.log('Error during GPS:', error);
+      },
+    );
+    console.log('after GPS, currPosition:', this.currentPosition);
   }
 
   async changeCurrentCity() {
     if (!this.currentPosition) {
+      console.log('There is no currentPosition, set currentCity to default');
+      this.currentCity = this.defaultCity;
       return;
     }
     const result = await changeCurrentCity(this.currentPosition);

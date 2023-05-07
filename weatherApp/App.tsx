@@ -4,6 +4,7 @@ import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import styles from './src/themes/styles/AppStyles';
 import NavigationComponentContainer from './src/navigation/NavigationContainer';
 import {RootStoreProvider} from './src/contexts/StoreContext';
+import {observer} from 'mobx-react';
 
 function App(): JSX.Element {
   return (
@@ -17,4 +18,4 @@ function App(): JSX.Element {
   );
 }
 
-export default App;
+export default observer(App);

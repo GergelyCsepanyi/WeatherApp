@@ -11,6 +11,7 @@ import {
   weatherApi,
 } from '../../services/WeatherAPI';
 import {useWeatherStore} from '../../contexts/StoreContext';
+import {observer} from 'mobx-react';
 
 type CityScreenProps = {
   city: City;
@@ -73,4 +74,4 @@ const CityScreen = (props: CityScreenProps) => {
   );
 };
 
-export default CityScreen;
+export default observer(CityScreen);
