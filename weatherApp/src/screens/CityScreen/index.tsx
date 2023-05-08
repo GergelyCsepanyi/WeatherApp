@@ -10,65 +10,93 @@ import {
   WeatherUnits,
   weatherApi,
 } from '../../services/WeatherAPI';
-import {useWeatherStore} from '../../contexts/StoreContext';
+import {useCityStore, useWeatherStore} from '../../contexts/StoreContext';
 import {observer} from 'mobx-react';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {RootStackParamList} from '../CitiesStackScreen';
+import {RootTabParamList} from '../../navigation/NavigationContainer';
 
 type CityScreenProps = {
-  city: City;
+  city?: City;
+  navigation?;
 };
 
+// type CityScreenProps = NativeStackScreenProps<RootTabParamList, 'CityScreen'>;
+
 const CityScreen = (props: CityScreenProps) => {
-  const {city} = props;
+  const cityStore = useCityStore();
   const weatherStore = useWeatherStore();
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>('');
   const [currentWeather, setCurrentWeather] = useState<Weather>();
+  const [currentCity, setCurrentCity] = useState<City>();
 
   useEffect(() => {
-    setIsLoading(true);
-    if (!city) {
-      setError(`There is no city param: ${city}`);
+    // setIsLoading(true);
+    setError('');
+    if (!cityStore.currentCity) {
+      setError(`There is no cityStore.currentCity: ${cityStore.currentCity}`);
       return;
     }
-    let result = weatherStore.getWeather(city.name);
-    console.log('result:', result);
+    if (props.city) {
+      setCurrentCity(props.city);
+    } else {
+      setCurrentCity(cityStore.currentCity);
+    }
+    // setIsLoading(false);
+  }, [cityStore.currentCity, props.city]);
+
+  useEffect(() => {
+    if (!currentCity) {
+      setIsLoading(true);
+      return;
+    }
+    let result = weatherStore.getWeather(currentCity.name);
+    // console.log('result:', result);
     if (result) {
       setIsLoading(false);
       setCurrentWeather(result);
       return;
     }
-    console.log('HERE');
+
     weatherApi
       .fetchWeather(
-        city.longitude,
-        city.latitude,
+        currentCity.longitude,
+        currentCity.latitude,
         WeatherUnits.Celsius,
         WeatherLangs.EN,
       )
       .then(res => {
         if (res !== null) {
-          console.log('RES:', res);
+          // console.log('RES:', res);
           weatherStore.addWeather(res as Weather);
           setIsLoading(false);
           setCurrentWeather(res);
-          console.log('weathers:', weatherStore.weathers);
+          // console.log('weathers:', weatherStore.weathers);
         }
       })
       .catch(err => console.log('ERR', err));
-  }, [city, weatherStore]);
+  }, [currentCity, weatherStore]);
 
-  if (isLoading || !currentWeather) {
-    return <Text>Loading</Text>;
-  }
+  useEffect(() => {
+    if (!props.navigation) {
+      return;
+    }
+    props.navigation.setOptions({title: 'asd'});
+  }, [props.navigation]);
 
   if (error) {
     return <Text>Error: {error}</Text>;
   }
 
+  if (isLoading || !currentWeather || !currentCity) {
+    return <Text>Loading</Text>;
+  }
+
   return (
     <SafeAreaView style={styles.containerStyle}>
-      <Header cityName={city.name} />
+      <Header cityName={currentCity.name} />
       <DataSection weather={currentWeather} />
     </SafeAreaView>
   );

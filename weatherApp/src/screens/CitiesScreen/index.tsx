@@ -8,6 +8,7 @@ import {RootStackParamList} from '../CitiesStackScreen';
 import RenderIconButton from '../../components/RenderIconButton';
 import {useCityStore} from '../../contexts/StoreContext';
 import {observer} from 'mobx-react';
+import {City} from '../../stores/CityStore';
 
 type CitiesScreenProps = NativeStackScreenProps<
   RootStackParamList,
@@ -34,6 +35,12 @@ const CitiesScreen = (props: CitiesScreenProps) => {
     });
   }, [props, handlePress]);
 
+  useEffect(() => {
+    props.navigation.setOptions({
+      title: 'sss',
+    });
+  }, [props.navigation]);
+
   return (
     <View style={styles.swiperContainerStyle}>
       {/* <FlatList
@@ -51,9 +58,9 @@ const CitiesScreen = (props: CitiesScreenProps) => {
         index={0}
         showPagination
         data={cityStore.cities}
-        renderItem={({item}) => (
+        renderItem={({item}: {item: City}) => (
           <View style={[styles.swiperChildStyle, {width}]}>
-            <CityScreen city={item} />
+            <CityScreen city={item} navigation={props.navigation} />
           </View>
         )}
       />

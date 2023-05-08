@@ -12,6 +12,5 @@ export class RootStore {
     this.cityStore = new CityStore();
     this.weatherStore = new WeatherStore();
     this.languageStore = new LanguageStore();
-    makeAutoObservable(this);
   }
 }

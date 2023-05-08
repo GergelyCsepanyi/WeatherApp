@@ -12,9 +12,10 @@ import {observer} from 'mobx-react';
 import string, {Languages, languages} from '../localization';
 import Dropdown from '../components/Dropdown';
 import {autorun, isObservable, reaction, toJS, when} from 'mobx';
+import TabBarItem from '../components/TabBarItem';
 
 export type RootTabParamList = {
-  CityScreen: {item: City};
+  CityScreen: {city?: City};
   CitiesStackScreen: undefined;
   AddCityScreen: undefined;
 };
@@ -50,42 +51,41 @@ const NavigationComponentContainer = observer(() => {
   };
 
   useEffect(() => {
-    // TODO: not working, useEffect won't be triggered
     cityStore.changeCurrentCity().then(() => setIsLoading(false));
   }, [cityStore, cityStore.currentPosition]);
 
-  useEffect(() => {
-    console.log('THE STORE lang has changed');
-  }, [lang]);
+  // useEffect(() => {
+  //   console.log('THE STORE lang has changed');
+  // }, [lang]);
 
-  useEffect(() =>
-    autorun(() => {
-      if (languageStore.getLanguage()) {
-        console.log('CHANGED');
-        console.log(isObservable(languageStore));
-      }
-    }),
-  );
+  // useEffect(() =>
+  //   autorun(() => {
+  //     if (languageStore.getLanguage()) {
+  //       console.log('CHANGED');
+  //       console.log(isObservable(languageStore));
+  //     }
+  //   }),
+  // );
 
-  autorun(() => {
-    if (languageStore.language) {
-      console.log('CHANGED 2');
-      console.log(isObservable(languageStore));
-    }
-  });
+  // autorun(() => {
+  //   if (languageStore.language) {
+  //     console.log('CHANGED 2');
+  //     console.log(isObservable(languageStore));
+  //   }
+  // });
 
-  useEffect(() => {
-    const disposer = autorun(() => {
-      console.log('CHANGED 3');
-    });
+  // useEffect(() => {
+  //   const disposer = autorun(() => {
+  //     console.log('CHANGED 3');
+  //   });
 
-    when(
-      () => languageStore.language,
-      () => disposer(),
-    );
+  //   when(
+  //     () => languageStore.language,
+  //     () => disposer(),
+  //   );
 
-    return () => disposer();
-  }, [languageStore.language]);
+  //   return () => disposer();
+  // }, [languageStore.language]);
 
   // when(
   //   () => languageStore.language === 'uk',
@@ -95,16 +95,16 @@ const NavigationComponentContainer = observer(() => {
   //   console.log('THE useState lang has changed');
   // }, [lang]);
 
-  useEffect(() => {
-    const reactionDisposer = reaction(
-      () => languageStore.language,
-      language => console.log(`languageStore.language is now ${language}`),
-    );
+  // useEffect(() => {
+  //   const reactionDisposer = reaction(
+  //     () => languageStore.language,
+  //     language => console.log(`languageStore.language is now ${language}`),
+  //   );
 
-    return () => {
-      reactionDisposer();
-    };
-  }, [languageStore.language]);
+  //   return () => {
+  //     reactionDisposer();
+  //   };
+  // }, [languageStore.language]);
 
   if (isLoading) {
     return <Text>Loading</Text>;
@@ -118,16 +118,25 @@ const NavigationComponentContainer = observer(() => {
           headerTitle: '',
           headerLeft: renderLangChange,
         }}>
-        <Tab.Screen
+        {/* <Tab.Screen
           name="CityScreen"
           options={{
             title: string.locationTabTitle,
             // title: testTranslate[lang].locationTabTitle,
             tabBarIcon: renderLocationIcon,
           }}
-          children={() => <CityScreen city={cityStore.currentCity as City} />}
+          // children={() => <CityScreen city={cityStore.currentCity as City} />}
+          component={CityScreen}
           // children={() => renderLangChange()}
-        />
+        /> */}
+        {TabBarItem({
+          Tab: Tab,
+          componentToRender: 'CityScreen',
+          screenName: 'CityScreen',
+          screenTitle: 'CityScreen',
+          tabBarIconToRender: 'location',
+        })}
+
         <Tab.Screen
           name={
             cityStore.cities.length === 0

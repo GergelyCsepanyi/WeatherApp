@@ -13,16 +13,16 @@ type DataSectionProps = {
 
 const DataSection = (props: DataSectionProps) => {
   const {weather} = props;
-  const weatherStore = useWeatherStore();
+  // const weatherStore = useWeatherStore();
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
     setIsLoading(true);
     if (weather) {
       setIsLoading(false);
-      console.log('Weather:', weather);
+      // console.log('Weather:', weather);
     }
-  }, [weather, weatherStore]);
+  }, [weather]);
 
   if (isLoading || !weather) {
     return <Text>Loading</Text>;
