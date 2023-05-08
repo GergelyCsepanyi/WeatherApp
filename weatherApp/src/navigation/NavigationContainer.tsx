@@ -11,6 +11,7 @@ import {Text} from 'react-native';
 import {observer} from 'mobx-react';
 import string, {Languages, languages} from '../localization';
 import Dropdown from '../components/Dropdown';
+import {autorun, isObservable, reaction, toJS, when} from 'mobx';
 
 export type RootTabParamList = {
   CityScreen: {item: City};
@@ -18,11 +19,13 @@ export type RootTabParamList = {
   AddCityScreen: undefined;
 };
 
-const NavigationComponentContainer = () => {
+const NavigationComponentContainer = observer(() => {
   const Tab = createBottomTabNavigator<RootTabParamList>();
 
   const languageStore = useLanguageStore();
   const cityStore = useCityStore();
+
+  const lang = toJS(languageStore.language);
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
@@ -37,17 +40,71 @@ const NavigationComponentContainer = () => {
       data={languages}
       handleDropdownChange={handleLanguageChange}
       label="lang"
-      value={languageStore.language}
+      value={lang}
     />
   );
 
-  const handleLanguageChange = (lang: Languages) => {
-    languageStore.changeLanguage(lang.value);
+  const handleLanguageChange = (langParam: Languages) => {
+    languageStore.changeLanguage(langParam.value);
+    //setLang(langParam.value);
   };
 
   useEffect(() => {
+    // TODO: not working, useEffect won't be triggered
     cityStore.changeCurrentCity().then(() => setIsLoading(false));
   }, [cityStore, cityStore.currentPosition]);
+
+  useEffect(() => {
+    console.log('THE STORE lang has changed');
+  }, [lang]);
+
+  useEffect(() =>
+    autorun(() => {
+      if (languageStore.getLanguage()) {
+        console.log('CHANGED');
+        console.log(isObservable(languageStore));
+      }
+    }),
+  );
+
+  autorun(() => {
+    if (languageStore.language) {
+      console.log('CHANGED 2');
+      console.log(isObservable(languageStore));
+    }
+  });
+
+  useEffect(() => {
+    const disposer = autorun(() => {
+      console.log('CHANGED 3');
+    });
+
+    when(
+      () => languageStore.language,
+      () => disposer(),
+    );
+
+    return () => disposer();
+  }, [languageStore.language]);
+
+  // when(
+  //   () => languageStore.language === 'uk',
+  //   () => console.log('set to UK'),
+  // );
+  // useEffect(() => {
+  //   console.log('THE useState lang has changed');
+  // }, [lang]);
+
+  useEffect(() => {
+    const reactionDisposer = reaction(
+      () => languageStore.language,
+      language => console.log(`languageStore.language is now ${language}`),
+    );
+
+    return () => {
+      reactionDisposer();
+    };
+  }, [languageStore.language]);
 
   if (isLoading) {
     return <Text>Loading</Text>;
@@ -65,6 +122,7 @@ const NavigationComponentContainer = () => {
           name="CityScreen"
           options={{
             title: string.locationTabTitle,
+            // title: testTranslate[lang].locationTabTitle,
             tabBarIcon: renderLocationIcon,
           }}
           children={() => <CityScreen city={cityStore.currentCity as City} />}
@@ -81,12 +139,13 @@ const NavigationComponentContainer = () => {
           }
           options={{
             title: string.favouritesTabTitle,
+            // title: testTranslate[languageStore.language].favouritesTabTitle,
             tabBarIcon: renderFilledFavouriteIcon,
           }}
         />
       </Tab.Navigator>
     </NavigationContainer>
   );
-};
+});
 
-export default observer(NavigationComponentContainer);
+export default NavigationComponentContainer;

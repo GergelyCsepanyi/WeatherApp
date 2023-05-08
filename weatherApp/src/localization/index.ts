@@ -5,8 +5,8 @@ type TranslatedText = {
   favouritesTabTitle: string;
 };
 
-export type LanguagesValue = 'hu' | 'ua' | 'en';
-type LanguagesLabel = 'hu' | 'ua' | 'en';
+export type LanguagesValue = 'hu' | 'uk' | 'en';
+type LanguagesLabel = 'hu' | 'uk' | 'en';
 
 export type Languages = {
   label: LanguagesLabel;
@@ -14,14 +14,35 @@ export type Languages = {
 };
 export const languages: Languages[] = [
   {label: 'hu', value: 'hu'},
-  {label: 'ua', value: 'ua'},
+  {label: 'uk', value: 'uk'},
   {label: 'en', value: 'en'},
 ];
 
-let string = new LocalizedStrings<TranslatedText>({
-  hu: {locationTabTitle: 'lokacio', favouritesTabTitle: 'kedvenc'},
-  ua: {locationTabTitle: 'lokacio ua', favouritesTabTitle: 'kedvenc ua'},
-  en: {locationTabTitle: 'Location', favouritesTabTitle: 'Favourites'},
+const hungarian = {
+  locationTabTitle: 'HU Location',
+  favouritesTabTitle: 'HU Favourites',
+};
+
+const ukrainian = {
+  locationTabTitle: 'UK Location',
+  favouritesTabTitle: 'UK Favourites',
+};
+
+const english = {
+  locationTabTitle: 'Location',
+  favouritesTabTitle: 'Favourites',
+};
+
+const string = new LocalizedStrings<TranslatedText>({
+  hu: hungarian,
+  uk: ukrainian,
+  en: english,
 });
+
+// export const testTranslate = {
+//   hu: hungarian,
+//   uk: ukrainian,
+//   en: english,
+// };
 
 export default string;

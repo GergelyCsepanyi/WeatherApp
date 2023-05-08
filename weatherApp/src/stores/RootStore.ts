@@ -1,3 +1,4 @@
+import {makeAutoObservable} from 'mobx';
 import {CityStore} from './CityStore';
 import {LanguageStore} from './LanguageStore';
 import {WeatherStore} from './WeatherStore';
@@ -11,5 +12,6 @@ export class RootStore {
     this.cityStore = new CityStore();
     this.weatherStore = new WeatherStore();
     this.languageStore = new LanguageStore();
+    makeAutoObservable(this);
   }
 }

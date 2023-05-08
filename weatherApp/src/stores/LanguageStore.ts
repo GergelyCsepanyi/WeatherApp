@@ -16,5 +16,10 @@ export class LanguageStore {
     this.language = language;
     console.log('store lang changed to:', this.language);
     console.log('interface lang :', string.getInterfaceLanguage());
+    // console.log('string value:', string);
+  }
+
+  getLanguage() {
+    return `${this.language}`;
   }
 }
