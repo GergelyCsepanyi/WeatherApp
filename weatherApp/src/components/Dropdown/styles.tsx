@@ -5,9 +5,11 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: Colors.white,
     padding: 16,
+    paddingBottom: 0,
+    marginBottom: 5,
     // flex: 1,
-    borderWidth: 2,
-    width: 122,
+    //borderWidth: 2,
+    width: 129,
   },
   dropdown: {
     height: 50,

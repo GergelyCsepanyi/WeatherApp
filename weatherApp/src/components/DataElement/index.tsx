@@ -1,6 +1,7 @@
 import React from 'react';
 import {Text, View} from 'react-native';
 import styles from './styles';
+import {observer} from 'mobx-react';
 
 type DataElementProps = {
   dataKey: string;
@@ -18,4 +19,4 @@ const DataElement = ({...props}: DataElementProps) => {
   );
 };
 
-export default DataElement;
+export default observer(DataElement);

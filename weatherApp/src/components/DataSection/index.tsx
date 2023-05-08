@@ -5,6 +5,8 @@ import DataElement from '../DataElement';
 import {Stack} from 'react-native-spacing-system';
 import DescriptionElement from '../DescriptionElement';
 import {Weather} from '../../stores/WeatherStore';
+import {observer} from 'mobx-react';
+import {useLanguageStore} from '../../contexts/StoreContext';
 
 type DataSectionProps = {
   weather: Weather;
@@ -14,6 +16,8 @@ const DataSection = (props: DataSectionProps) => {
   const {weather} = props;
   // const weatherStore = useWeatherStore();
   const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  const languageStore = useLanguageStore();
 
   useEffect(() => {
     setIsLoading(true);
@@ -32,7 +36,8 @@ const DataSection = (props: DataSectionProps) => {
       <ScrollView style={styles.containerStyle}>
         <Stack size={20} />
         <DataElement
-          dataKey="Temperature"
+          // dataKey="temperature"
+          dataKey={languageStore.string.temperature}
           dataValue={weather.main.temp.toString()}
           // dataValue={'asd'}
           renderIcon={true}
@@ -54,4 +59,4 @@ const DataSection = (props: DataSectionProps) => {
   );
 };
 
-export default DataSection;
+export default observer(DataSection);

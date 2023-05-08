@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import {useLanguageStore} from '../../contexts/StoreContext';
-import string from '../../localization';
+// import string from '../../localization';
 import {observer} from 'mobx-react';
 import {Text} from 'react-native';
 
@@ -14,9 +14,7 @@ const TabBarIcon = (props: TabBarItemProps) => {
 
   const languageStore = useLanguageStore();
 
-  useEffect(() => {
-    console.log('Lang store changed:', languageStore.language);
-  }, [languageStore.language]);
+  useEffect(() => {}, [languageStore.language]);
 
   return (
     <>
@@ -27,8 +25,8 @@ const TabBarIcon = (props: TabBarItemProps) => {
       />
       <Text>
         {title === 'favourites'
-          ? string.favouritesTabTitle
-          : string.locationTabTitle}
+          ? languageStore.string.favouritesTabTitle
+          : languageStore.string.locationTabTitle}
       </Text>
     </>
   );

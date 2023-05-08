@@ -12,9 +12,6 @@ import {
 } from '../../services/WeatherAPI';
 import {useCityStore, useWeatherStore} from '../../contexts/StoreContext';
 import {observer} from 'mobx-react';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {RootStackParamList} from '../CitiesStackScreen';
-import {RootTabParamList} from '../../navigation/NavigationContainer';
 
 type CityScreenProps = {
   city?: City;
@@ -77,13 +74,6 @@ const CityScreen = (props: CityScreenProps) => {
       })
       .catch(err => console.log('ERR', err));
   }, [currentCity, weatherStore]);
-
-  // useEffect(() => {
-  //   if (!props.navigation) {
-  //     return;
-  //   }
-  //   props.navigation.setOptions({title: 'asd'});
-  // }, [props.navigation]);
 
   if (error) {
     return <Text>Error: {error}</Text>;
