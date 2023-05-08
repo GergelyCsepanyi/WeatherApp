@@ -60,7 +60,7 @@ const CitiesScreen = (props: CitiesScreenProps) => {
         data={cityStore.cities}
         renderItem={({item}: {item: City}) => (
           <View style={[styles.swiperChildStyle, {width}]}>
-            <CityScreen city={item} navigation={props.navigation} />
+            <CityScreen city={item} />
           </View>
         )}
       />

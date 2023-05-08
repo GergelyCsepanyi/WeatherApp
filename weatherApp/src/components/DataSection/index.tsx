@@ -5,7 +5,6 @@ import DataElement from '../DataElement';
 import {Stack} from 'react-native-spacing-system';
 import DescriptionElement from '../DescriptionElement';
 import {Weather} from '../../stores/WeatherStore';
-import {useWeatherStore} from '../../contexts/StoreContext';
 
 type DataSectionProps = {
   weather: Weather;

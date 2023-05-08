@@ -18,7 +18,6 @@ import {RootTabParamList} from '../../navigation/NavigationContainer';
 
 type CityScreenProps = {
   city?: City;
-  navigation?;
 };
 
 // type CityScreenProps = NativeStackScreenProps<RootTabParamList, 'CityScreen'>;
@@ -79,12 +78,12 @@ const CityScreen = (props: CityScreenProps) => {
       .catch(err => console.log('ERR', err));
   }, [currentCity, weatherStore]);
 
-  useEffect(() => {
-    if (!props.navigation) {
-      return;
-    }
-    props.navigation.setOptions({title: 'asd'});
-  }, [props.navigation]);
+  // useEffect(() => {
+  //   if (!props.navigation) {
+  //     return;
+  //   }
+  //   props.navigation.setOptions({title: 'asd'});
+  // }, [props.navigation]);
 
   if (error) {
     return <Text>Error: {error}</Text>;

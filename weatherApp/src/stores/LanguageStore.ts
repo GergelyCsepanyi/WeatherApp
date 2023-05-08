@@ -3,7 +3,7 @@ import string, {LanguagesValue} from '../localization';
 
 export class LanguageStore {
   language: LanguagesValue;
-  defaultLanguage: LanguagesValue = 'hu';
+  defaultLanguage: LanguagesValue = 'uk';
 
   constructor() {
     makeAutoObservable(this);

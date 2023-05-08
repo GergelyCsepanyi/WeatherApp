@@ -1,4 +1,4 @@
-import {makeAutoObservable} from 'mobx';
+import {makeAutoObservable, runInAction} from 'mobx';
 import {CityResponse, citiesApi} from '../services/CitiesAPI';
 import Geolocation from '@react-native-community/geolocation';
 
@@ -91,11 +91,14 @@ export class CityStore {
       return;
     }
     const result = await changeCurrentCity(this.currentPosition);
-    if (!result) {
-      this.currentCity = this.defaultCity;
-    } else {
-      this.currentCity = result;
-    }
+
+    runInAction(() => {
+      if (!result) {
+        this.currentCity = this.defaultCity;
+      } else {
+        this.currentCity = result;
+      }
+    });
   }
 
   removeCity(id: number) {

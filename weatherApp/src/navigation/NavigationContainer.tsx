@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import {City} from '../stores/CityStore';
 import CityScreen from '../screens/CityScreen';
 import AddCityScreen from '../screens/AddCityScreen';
@@ -9,10 +8,9 @@ import CitiesStackScreen from '../screens/CitiesStackScreen';
 import {useCityStore, useLanguageStore} from '../contexts/StoreContext';
 import {Text} from 'react-native';
 import {observer} from 'mobx-react';
-import string, {Languages, languages} from '../localization';
+import {Languages, languages} from '../localization';
 import Dropdown from '../components/Dropdown';
-import {autorun, isObservable, reaction, toJS, when} from 'mobx';
-import TabBarItem from '../components/TabBarItem';
+import TabBarIcon from '../components/TabBarIcon';
 
 export type RootTabParamList = {
   CityScreen: {city?: City};
@@ -26,22 +24,18 @@ const NavigationComponentContainer = observer(() => {
   const languageStore = useLanguageStore();
   const cityStore = useCityStore();
 
-  const lang = toJS(languageStore.language);
+  // const [lang, setLang] = useState<LanguagesValue>(
+  //   languageStore.defaultLanguage,
+  // );
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  const renderFilledFavouriteIcon = () => (
-    <MaterialIcon name="favorite" size={30} color="black" />
-  );
-  const renderLocationIcon = () => (
-    <MaterialIcon name="room" size={30} color="black" />
-  );
   const renderLangChange = () => (
     <Dropdown
       data={languages}
       handleDropdownChange={handleLanguageChange}
       label="lang"
-      value={lang}
+      value={languageStore.language}
     />
   );
 
@@ -54,58 +48,6 @@ const NavigationComponentContainer = observer(() => {
     cityStore.changeCurrentCity().then(() => setIsLoading(false));
   }, [cityStore, cityStore.currentPosition]);
 
-  // useEffect(() => {
-  //   console.log('THE STORE lang has changed');
-  // }, [lang]);
-
-  // useEffect(() =>
-  //   autorun(() => {
-  //     if (languageStore.getLanguage()) {
-  //       console.log('CHANGED');
-  //       console.log(isObservable(languageStore));
-  //     }
-  //   }),
-  // );
-
-  // autorun(() => {
-  //   if (languageStore.language) {
-  //     console.log('CHANGED 2');
-  //     console.log(isObservable(languageStore));
-  //   }
-  // });
-
-  // useEffect(() => {
-  //   const disposer = autorun(() => {
-  //     console.log('CHANGED 3');
-  //   });
-
-  //   when(
-  //     () => languageStore.language,
-  //     () => disposer(),
-  //   );
-
-  //   return () => disposer();
-  // }, [languageStore.language]);
-
-  // when(
-  //   () => languageStore.language === 'uk',
-  //   () => console.log('set to UK'),
-  // );
-  // useEffect(() => {
-  //   console.log('THE useState lang has changed');
-  // }, [lang]);
-
-  // useEffect(() => {
-  //   const reactionDisposer = reaction(
-  //     () => languageStore.language,
-  //     language => console.log(`languageStore.language is now ${language}`),
-  //   );
-
-  //   return () => {
-  //     reactionDisposer();
-  //   };
-  // }, [languageStore.language]);
-
   if (isLoading) {
     return <Text>Loading</Text>;
   }
@@ -117,25 +59,15 @@ const NavigationComponentContainer = observer(() => {
           headerShown: true,
           headerTitle: '',
           headerLeft: renderLangChange,
+          title: '',
         }}>
-        {/* <Tab.Screen
+        <Tab.Screen
           name="CityScreen"
           options={{
-            title: string.locationTabTitle,
-            // title: testTranslate[lang].locationTabTitle,
-            tabBarIcon: renderLocationIcon,
+            tabBarIcon: () => <TabBarIcon title="location" />,
           }}
-          // children={() => <CityScreen city={cityStore.currentCity as City} />}
           component={CityScreen}
-          // children={() => renderLangChange()}
-        /> */}
-        {TabBarItem({
-          Tab: Tab,
-          componentToRender: 'CityScreen',
-          screenName: 'CityScreen',
-          screenTitle: 'CityScreen',
-          tabBarIconToRender: 'location',
-        })}
+        />
 
         <Tab.Screen
           name={
@@ -147,9 +79,7 @@ const NavigationComponentContainer = observer(() => {
             cityStore.cities.length === 0 ? AddCityScreen : CitiesStackScreen
           }
           options={{
-            title: string.favouritesTabTitle,
-            // title: testTranslate[languageStore.language].favouritesTabTitle,
-            tabBarIcon: renderFilledFavouriteIcon,
+            tabBarIcon: () => <TabBarIcon title="favourites" />,
           }}
         />
       </Tab.Navigator>
