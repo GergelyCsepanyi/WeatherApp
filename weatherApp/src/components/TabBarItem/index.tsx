@@ -67,4 +67,25 @@ const TabBarItem = (props: TabBarItemProps) => {
   );
 };
 
+{
+  /* <TabBar.Screen
+        name='Home'
+        component={HomeStackNavigator}
+        options={{ tabBarIcon: HomeTabBar }}
+      />
+
+
+export const HomeTabBar = ({ focused }: BarProps) => {
+  const theme = useTheme()
+  const color = useColor(focused, theme)
+
+  return (
+    <TabBarWrapper>
+      <HomeIcon fill={color} stroke={color} width={TAB_BAR_ICON_SIZE} height={TAB_BAR_ICON_SIZE} />
+      <Typography.Body size='s' weight='regular' text='Home' color={color} style={styles.text} />
+    </TabBarWrapper>
+  )
+} */
+}
+
 export default TabBarItem;
