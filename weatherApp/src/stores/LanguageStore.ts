@@ -4,9 +4,19 @@ import LocalizedStrings from 'react-native-localization';
 import {texts} from '../localization';
 
 export type TranslatedText = {
+  today: string;
   locationTabTitle: string;
   favouritesTabTitle: string;
   temperature: string;
+  minTemperature: string;
+  maxTemperature: string;
+  mainWeatherCondition: string;
+  sunset: string;
+  sunrise: string;
+  wind: string;
+  humidity: string;
+  clouds: string;
+  visibility: string;
 };
 
 type LanguagesLabel = 'hu' | 'uk' | 'en';

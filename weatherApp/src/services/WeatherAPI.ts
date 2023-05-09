@@ -11,17 +11,9 @@ type WeatherResponseWeatherItem = {
   icon: string;
 };
 
-export enum WeatherLangs {
-  HU = 'hu',
-  UA = 'ua',
-  EN = 'en',
-}
+export type WeatherLangs = 'hu' | 'uk' | 'en';
 
-export enum WeatherUnits {
-  Kelvin = 'standard',
-  Celsius = 'metric',
-  Fahrenheit = 'imperial',
-}
+export type WeatherUnits = 'metric' | 'standard' | 'imperial';
 
 export type WeatherResponse = {
   coord: {

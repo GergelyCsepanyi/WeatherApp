@@ -53,34 +53,38 @@ const CityScreen = (props: CityScreenProps) => {
       setIsLoading(true);
       return;
     }
-    let result = weatherStore.getWeather(currentCity.name);
-    // console.log('result:', result);
-    if (result) {
-      setIsLoading(false);
-      setCurrentWeather(result);
-      return;
-    }
+    // let result = weatherStore.getWeather(currentCity.name);
+
+    // if (result) {
+    //   setIsLoading(false);
+    //   setCurrentWeather(result);
+    //   return;
+    // }
 
     weatherApi
       .fetchWeather(
         currentCity.longitude,
         currentCity.latitude,
-        WeatherUnits.Celsius,
-        WeatherLangs.EN,
+        weatherStore.units,
+        languageStore.language,
       )
       .then(res => {
         if (res !== null) {
           // console.log('RES:', res);
-          weatherStore.addWeather(res as Weather);
+          // weatherStore.addWeather(res as Weather);
           setIsLoading(false);
           setCurrentWeather(res);
           // console.log('weathers:', weatherStore.weathers);
         }
       })
       .catch(err => console.log('ERR', err));
-  }, [currentCity, weatherStore]);
+  }, [currentCity, weatherStore, languageStore.language, weatherStore.units]);
 
-  useEffect(() => {}, [languageStore.language]);
+  useEffect(() => {
+    weatherStore.setUnits(languageStore.language);
+  }, [languageStore.language, weatherStore]);
+
+  // useEffect(() => {}, [languageStore.language]);
 
   if (error) {
     return <Text>Error: {error}</Text>;

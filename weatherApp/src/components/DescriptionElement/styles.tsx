@@ -6,6 +6,7 @@ const styles = StyleSheet.create({
     flex: 1,
     borderBottomWidth: 0.3,
     borderBottomColor: Colors.grey,
+    paddingTop: 10,
     paddingBottom: 10,
   },
   titleTextStyle: {
