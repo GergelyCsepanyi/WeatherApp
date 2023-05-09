@@ -1,15 +1,16 @@
 import {makeAutoObservable} from 'mobx';
 // import {LanguagesValue} from '../localization';
 import LocalizedStrings from 'react-native-localization';
+import {texts} from '../localization';
 
-type TranslatedText = {
+export type TranslatedText = {
   locationTabTitle: string;
   favouritesTabTitle: string;
   temperature: string;
 };
 
-export type LanguagesValue = 'hu' | 'uk' | 'en';
 type LanguagesLabel = 'hu' | 'uk' | 'en';
+export type LanguagesValue = 'hu' | 'uk' | 'en';
 
 export type Languages = {
   label: LanguagesLabel;
@@ -25,43 +26,19 @@ export class LanguageStore {
   defaultLanguage: LanguagesValue = 'uk';
   language: LanguagesValue = this.defaultLanguage;
 
-  hungarian = {
-    locationTabTitle: 'HU Location',
-    favouritesTabTitle: 'HU Favourites',
-    temperature: 'HU Temperature',
-  };
-
-  ukrainian = {
-    locationTabTitle: 'UK Location',
-    favouritesTabTitle: 'UK Favourites',
-    temperature: 'UK Temperature',
-  };
-
-  english = {
-    locationTabTitle: 'Location',
-    favouritesTabTitle: 'Favourites',
-    temperature: 'Temperature',
-  };
-
-  string = new LocalizedStrings<TranslatedText>({
-    hu: this.hungarian,
-    uk: this.ukrainian,
-    en: this.english,
-  });
+  string = new LocalizedStrings<TranslatedText>(texts);
 
   constructor() {
     makeAutoObservable(this);
-    this.changeLanguage(this.defaultLanguage);
+    this.string.setLanguage(this.defaultLanguage);
   }
 
   changeLanguage(language: LanguagesValue) {
-    console.log('change language to:', language);
-    // TODO: infinite re-render loop....
-    string.setLanguage(language);
+    if (language === this.language) {
+      return;
+    }
+    this.string.setLanguage(language);
     this.language = language;
-    console.log('store lang changed to:', this.language);
-    console.log('interface lang :', this.string.getInterfaceLanguage());
-    // console.log('string value:', string);
   }
 
   getLanguage() {

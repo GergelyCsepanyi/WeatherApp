@@ -10,7 +10,11 @@ import {
   WeatherUnits,
   weatherApi,
 } from '../../services/WeatherAPI';
-import {useCityStore, useWeatherStore} from '../../contexts/StoreContext';
+import {
+  useCityStore,
+  useLanguageStore,
+  useWeatherStore,
+} from '../../contexts/StoreContext';
 import {observer} from 'mobx-react';
 
 type CityScreenProps = {
@@ -22,6 +26,7 @@ type CityScreenProps = {
 const CityScreen = (props: CityScreenProps) => {
   const cityStore = useCityStore();
   const weatherStore = useWeatherStore();
+  const languageStore = useLanguageStore();
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>('');
@@ -74,6 +79,8 @@ const CityScreen = (props: CityScreenProps) => {
       })
       .catch(err => console.log('ERR', err));
   }, [currentCity, weatherStore]);
+
+  useEffect(() => {}, [languageStore.language]);
 
   if (error) {
     return <Text>Error: {error}</Text>;

@@ -27,6 +27,8 @@ const DataSection = (props: DataSectionProps) => {
     }
   }, [weather]);
 
+  useEffect(() => {}, [languageStore.language]);
+
   if (isLoading || !weather) {
     return <Text>Loading</Text>;
   }

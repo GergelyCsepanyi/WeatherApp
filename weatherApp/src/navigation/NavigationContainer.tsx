@@ -44,7 +44,9 @@ const NavigationComponentContainer = observer(() => {
           name="CityScreen"
           options={{
             headerLeft: () => <LanguageSelection />,
-            tabBarIcon: () => <TabBarIcon title="location" />,
+            tabBarIcon: ({focused}) => (
+              <TabBarIcon title="location" focused={focused} />
+            ),
           }}
           component={CityScreen}
         />
@@ -59,7 +61,9 @@ const NavigationComponentContainer = observer(() => {
             cityStore.cities.length === 0 ? AddCityScreen : CitiesStackScreen
           }
           options={{
-            tabBarIcon: () => <TabBarIcon title="favourites" />,
+            tabBarIcon: ({focused}) => (
+              <TabBarIcon title="favourites" focused={focused} />
+            ),
           }}
         />
       </Tab.Navigator>

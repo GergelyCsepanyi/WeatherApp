@@ -4,17 +4,26 @@ import {useLanguageStore} from '../../contexts/StoreContext';
 // import string from '../../localization';
 import {observer} from 'mobx-react';
 import {Text} from 'react-native';
+// import {BottomTabBarButtonProps} from '@react-navigation/bottom-tabs';
 
 type TabBarItemProps = {
   title: 'location' | 'favourites';
+  focused: boolean;
 };
 
-const TabBarIcon = (props: TabBarItemProps) => {
-  const {title} = props;
+// type TabBarItemProps = BottomTabBarButtonProps & TabBarItemTitle;
 
+const TabBarIcon = ({focused, title}: TabBarItemProps) => {
   const languageStore = useLanguageStore();
 
   useEffect(() => {}, [languageStore.language]);
+
+  useEffect(() => {
+    console.log(focused);
+    if (focused) {
+      console.log('Focus on:', title);
+    }
+  }, [focused, title]);
 
   return (
     <>
