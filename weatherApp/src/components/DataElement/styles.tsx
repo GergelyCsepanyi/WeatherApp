@@ -22,11 +22,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     color: Colors.defaultTextColor,
   },
-  iconStyle: {
-    flex: 1,
-    textAlign: 'center',
-    color: Colors.defaultTextColor,
-  },
+
   dataValueStyle: {
     flex: 2,
     flexWrap: 'wrap',

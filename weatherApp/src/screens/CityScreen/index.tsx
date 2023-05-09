@@ -5,11 +5,7 @@ import Header from '../../components/Header';
 import DataSection from '../../components/DataSection';
 import {City} from '../../stores/CityStore';
 import {Weather} from '../../stores/WeatherStore';
-import {
-  WeatherLangs,
-  WeatherUnits,
-  weatherApi,
-} from '../../services/WeatherAPI';
+import {weatherApi} from '../../services/WeatherAPI';
 import {
   useCityStore,
   useLanguageStore,
@@ -83,8 +79,6 @@ const CityScreen = (props: CityScreenProps) => {
   useEffect(() => {
     weatherStore.setUnits(languageStore.language);
   }, [languageStore.language, weatherStore]);
-
-  // useEffect(() => {}, [languageStore.language]);
 
   if (error) {
     return <Text>Error: {error}</Text>;

@@ -24,7 +24,7 @@ const DropdownComponent = (props: DropdownComponentProps) => {
   const renderLabel = () => {
     if (value || isFocus) {
       return (
-        <Text style={[styles.label, isFocus && {color: Colors.blue}]}>
+        <Text style={[styles.label, isFocus && {color: Colors.lightBlue}]}>
           {props.label}
         </Text>
       );
@@ -36,7 +36,7 @@ const DropdownComponent = (props: DropdownComponentProps) => {
     <View style={styles.container}>
       {renderLabel()}
       <Dropdown
-        style={[styles.dropdown, isFocus && {borderColor: Colors.blue}]}
+        style={[styles.dropdown, isFocus && {borderColor: Colors.lightBlue}]}
         placeholderStyle={styles.placeholderStyle}
         selectedTextStyle={styles.selectedTextStyle}
         inputSearchStyle={styles.inputSearchStyle}

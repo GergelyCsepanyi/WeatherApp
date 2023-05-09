@@ -1,6 +1,7 @@
 import {TranslatedText} from '../stores/LanguageStore';
 
 export const ukrainian: TranslatedText = {
+  lang: 'UK Language',
   today: 'UK Today',
   locationTabTitle: 'UK Location',
   favouritesTabTitle: 'UK Favourites',
@@ -14,4 +15,8 @@ export const ukrainian: TranslatedText = {
   humidity: 'UK Humidity',
   clouds: 'UK Clouds',
   visibility: 'UK Visibility',
+  searchCity: 'UK Search City',
+  favouriteCities: 'UK Favourite Cities',
+  cancel: 'UK Cancel',
+  noDataFound: 'UK No Data Found!',
 };

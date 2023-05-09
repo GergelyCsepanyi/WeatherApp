@@ -41,14 +41,15 @@ const styles = StyleSheet.create({
     color: Colors.defaultTextColor,
   },
 
-  foundCitiesContainer: {flexDirection: 'row'},
+  foundCitiesContainer: {flexDirection: 'row', flexWrap: 'wrap'},
   foundCitiesListContainer: {
     flex: 1,
     alignSelf: 'center',
+    // flexWrap: 'wrap',
   },
-  foundCitiesStartPlaceholder: {width: '13.5%'},
-  foundCitiesEndPlaceholder: {width: '10%'},
-  foundCitiesEndPlaceholderFocused: {width: '30%'},
+  foundCitiesStartPlaceholder: {width: '13.3%'},
+  foundCitiesEndPlaceholder: {width: '10.5%'},
+  foundCitiesEndPlaceholderFocused: {width: '29%'},
   foundCitiesItemContainer: {
     flex: 1,
     width: '100%',
@@ -58,6 +59,9 @@ const styles = StyleSheet.create({
     height: 30,
     borderBottomWidth: 0.3,
     borderBottomColor: Colors.grey,
+    flexWrap: 'wrap',
+    paddingTop: 5,
+    alignContent: 'flex-start',
   },
   foundCitiesItem: {
     flex: 3,

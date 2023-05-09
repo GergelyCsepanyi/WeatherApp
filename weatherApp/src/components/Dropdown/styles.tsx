@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     // flex: 1,
     //borderWidth: 2,
-    width: 129,
+    width: 150,
   },
   dropdown: {
     height: 50,

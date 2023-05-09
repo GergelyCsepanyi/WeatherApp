@@ -1,5 +1,11 @@
-import React, {useCallback, useEffect, useState} from 'react';
-import {Text, SafeAreaView, View, TouchableOpacity} from 'react-native';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
+import {
+  Text,
+  SafeAreaView,
+  View,
+  TouchableOpacity,
+  Animated,
+} from 'react-native';
 import SearchBar from '../../components/Searchbar';
 import styles from './styles';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
@@ -15,7 +21,7 @@ import DraggableFlatList, {
 import {toJS} from 'mobx';
 import {Stack} from 'react-native-spacing-system';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
-import {useCityStore} from '../../contexts/StoreContext';
+import {useCityStore, useLanguageStore} from '../../contexts/StoreContext';
 import {observer} from 'mobx-react';
 
 type AddCityScreenProps = NativeStackScreenProps<
@@ -25,6 +31,7 @@ type AddCityScreenProps = NativeStackScreenProps<
 
 const AddCityScreen = (props: AddCityScreenProps) => {
   const cityStore = useCityStore();
+  const languageStore = useLanguageStore();
 
   const [searchbarCityValue, setSearchbarCityValue] = useState('');
   const [isSearchBarFocused, setIsSearchBarFocused] = useState(false);
@@ -70,7 +77,7 @@ const AddCityScreen = (props: AddCityScreenProps) => {
   const renderFlatListEmptyItem = () => {
     return (
       <View>
-        <Text>No data found!</Text>
+        <Text>{languageStore.string.noDataFound}</Text>
       </View>
     );
   };
@@ -92,7 +99,9 @@ const AddCityScreen = (props: AddCityScreenProps) => {
     return (
       <View style={styles.favouriteCitiesHeaderContainerStyle}>
         <Text style={styles.favouriteCitiesHeaderTextStyle}>
-          {cityStore.cities?.length > 0 ? 'Favourite Cities' : null}
+          {cityStore.cities?.length > 0
+            ? languageStore.string.favouriteCities
+            : null}
         </Text>
         <Stack size={3} />
       </View>
@@ -127,8 +136,9 @@ const AddCityScreen = (props: AddCityScreenProps) => {
         onCancel={handleSearchBarCancel}
         onChangeText={setSearchbarCityValue}
         setIsSearchBarFocused={setIsSearchBarFocused}
-        placeholder="Search City"
+        placeholder={languageStore.string.searchCity}
         value={searchbarCityValue}
+        cancelButtonText={languageStore.string.cancel}
       />
 
       {isSearchBarFocused || foundCities.length > 0 ? (
@@ -158,7 +168,6 @@ const AddCityScreen = (props: AddCityScreenProps) => {
           <DraggableFlatList
             style={styles.favouriteCitiesListContainer}
             keyExtractor={item => String(item.id)}
-            // data={favouriteCitiesList}
             data={toJS(cityStore.cities)}
             onDragEnd={({data}) => {
               cityStore.replaceCities(data as City[]);

@@ -2,7 +2,10 @@ import {StyleSheet} from 'react-native';
 import Colors from '../../themes/Colors';
 
 const styles = StyleSheet.create({
-  containerStyle: {flexDirection: 'row', justifyContent: 'space-between'},
+  containerStyle: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
   searchbarContainerStyle: {
     width: '100%',
     height: 45,
@@ -14,7 +17,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   searchbarContainerStyleOnFocus: {
-    width: '80%',
+    width: '78%',
   },
   inputContainerStyle: {
     height: 35,

@@ -4,6 +4,7 @@ import LocalizedStrings from 'react-native-localization';
 import {texts} from '../localization';
 
 export type TranslatedText = {
+  lang: string;
   today: string;
   locationTabTitle: string;
   favouritesTabTitle: string;
@@ -17,9 +18,13 @@ export type TranslatedText = {
   humidity: string;
   clouds: string;
   visibility: string;
+  searchCity: string;
+  favouriteCities: string;
+  cancel: string;
+  noDataFound: string;
 };
 
-type LanguagesLabel = 'hu' | 'uk' | 'en';
+type LanguagesLabel = 'HU' | 'UK' | 'EN';
 export type LanguagesValue = 'hu' | 'uk' | 'en';
 
 export type Languages = {
@@ -27,9 +32,9 @@ export type Languages = {
   value: LanguagesValue;
 };
 export const languages: Languages[] = [
-  {label: 'hu', value: 'hu'},
-  {label: 'uk', value: 'uk'},
-  {label: 'en', value: 'en'},
+  {label: 'HU', value: 'hu'},
+  {label: 'UK', value: 'uk'},
+  {label: 'EN', value: 'en'},
 ];
 
 export class LanguageStore {

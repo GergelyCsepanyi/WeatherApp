@@ -1,6 +1,5 @@
 import React from 'react';
 import {useLanguageStore} from '../../contexts/StoreContext';
-// import {Languages, languages} from '../../localization';
 import {observer} from 'mobx-react';
 import Dropdown from '../Dropdown';
 import {Languages, languages} from '../../stores/LanguageStore';
@@ -16,7 +15,7 @@ const LanguageSelection = () => {
     <Dropdown
       data={languages}
       handleDropdownChange={handleLanguageChange}
-      label="lang"
+      label={languageStore.string.lang}
       value={languageStore.language}
     />
   );

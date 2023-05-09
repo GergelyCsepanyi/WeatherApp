@@ -1,6 +1,7 @@
 import {TranslatedText} from '../stores/LanguageStore';
 
 export const english: TranslatedText = {
+  lang: 'Language',
   today: 'Today',
   locationTabTitle: 'Location',
   favouritesTabTitle: 'Favourites',
@@ -14,4 +15,8 @@ export const english: TranslatedText = {
   humidity: 'Humidity',
   clouds: 'Clouds',
   visibility: 'Visibility',
+  searchCity: 'Search City',
+  favouriteCities: 'Favourite Cities',
+  cancel: 'Cancel',
+  noDataFound: 'No Data Found!',
 };

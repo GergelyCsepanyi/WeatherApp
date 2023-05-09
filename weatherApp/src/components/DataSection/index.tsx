@@ -7,6 +7,8 @@ import DescriptionElement from '../DescriptionElement';
 import {Weather} from '../../stores/WeatherStore';
 import {observer} from 'mobx-react';
 import {useLanguageStore, useWeatherStore} from '../../contexts/StoreContext';
+import Feather from 'react-native-vector-icons/Feather';
+import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 
 type DataSectionProps = {
   weather: Weather;
@@ -14,7 +16,6 @@ type DataSectionProps = {
 
 const DataSection = (props: DataSectionProps) => {
   const {weather} = props;
-  // const weatherStore = useWeatherStore();
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const languageStore = useLanguageStore();
@@ -82,11 +83,29 @@ const DataSection = (props: DataSectionProps) => {
   const formatTemperature = (temp: number): string =>
     `${Math.round(temp)} ${weatherStore.weatherUnit}`;
 
+  const renderCloudIcon = () => {
+    return (
+      <MaterialIcon style={styles.iconStyle} name="cloud-queue" size={22} />
+    );
+  };
+
+  const renderFeatherIcon = (name: string, iconRotateDeg?: number) => {
+    return (
+      <Feather
+        style={[
+          styles.iconStyle,
+          {transform: [{rotate: `${iconRotateDeg}deg`}]},
+        ]}
+        name={name}
+        size={22}
+      />
+    );
+  };
+
   useEffect(() => {
     setIsLoading(true);
     if (weather) {
       setIsLoading(false);
-      // console.log('Weather:', weather);
     }
   }, [weather]);
 
@@ -103,49 +122,43 @@ const DataSection = (props: DataSectionProps) => {
         <DataElement
           dataKey={languageStore.string.temperature}
           dataValue={formatTemperature(weather.main.temp)}
-          renderIcon={true}
+          icon={renderFeatherIcon('thermometer')}
         />
 
-        {/* <DataElement
-          dataKey={languageStore.string.mainWeatherCondition}
-          dataValue={weather.weather[0].description}
-        /> */}
         {weather.rain?.['1h'] ? (
           <>
             <DataElement
               dataKey={weather.rain['1h'].toString()}
               dataValue="temperature"
-              renderIcon={true}
-            />{' '}
+            />
           </>
         ) : null}
 
-        {weather.snow?.['1h'] ? (
+        {weather.snow?.['3h'] ? (
           <>
             <DataElement
-              dataKey={weather.snow['1h'].toString()}
+              dataKey={weather.snow['3h'].toString()}
               dataValue="temperature"
-              renderIcon={true}
-            />{' '}
+            />
           </>
         ) : null}
 
         <DataElement
           dataKey={languageStore.string.clouds}
           dataValue={`${weather.clouds.all.toString()} %`}
-          renderIcon={true}
+          icon={renderCloudIcon()}
         />
 
         <DataElement
           dataKey={languageStore.string.humidity}
           dataValue={`${weather.main.humidity.toString()} %`}
-          renderIcon={true}
+          icon={renderFeatherIcon('droplet')}
         />
 
         <DataElement
           dataKey={languageStore.string.visibility}
           dataValue={formatDistance(weather.visibility)}
-          renderIcon={true}
+          icon={renderFeatherIcon('eye')}
         />
 
         <DescriptionElement
@@ -164,19 +177,19 @@ const DataSection = (props: DataSectionProps) => {
         <DataElement
           dataKey={languageStore.string.sunrise}
           dataValue={formatTime(weather.sys.sunrise)}
-          renderIcon={true}
+          icon={renderFeatherIcon('sunrise')}
         />
 
         <DataElement
           dataKey={languageStore.string.sunset}
           dataValue={formatTime(weather.sys.sunset)}
-          renderIcon={true}
+          icon={renderFeatherIcon('sunset')}
         />
 
         <DataElement
           dataKey={languageStore.string.wind}
           dataValue={formatWindSpeed(weather.wind.speed)}
-          renderIcon={true}
+          icon={renderFeatherIcon('arrow-up', weather.wind.deg)}
         />
       </ScrollView>
     </View>

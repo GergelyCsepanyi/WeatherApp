@@ -1,6 +1,7 @@
 import {TranslatedText} from '../stores/LanguageStore';
 
 export const hungarian: TranslatedText = {
+  lang: 'HU Language',
   today: 'HU Today',
   locationTabTitle: 'HU Location',
   favouritesTabTitle: 'HU Favourites',
@@ -14,4 +15,8 @@ export const hungarian: TranslatedText = {
   humidity: 'HU Humidity',
   clouds: 'HU Clouds',
   visibility: 'HU Visibility',
+  searchCity: 'HU Search City',
+  favouriteCities: 'HU Favourite Cities',
+  cancel: 'HU Cancel',
+  noDataFound: 'HU No Data Found!',
 };

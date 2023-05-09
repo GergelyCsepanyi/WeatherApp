@@ -8,6 +8,7 @@ type SearchBarComponentProps = {
   placeholder: string;
   value: string;
   onChangeText: React.Dispatch<React.SetStateAction<string>>;
+  cancelButtonText: string;
   onTouchStart?: () => void;
   onEndEditing?: () => void;
   onClear?: () => void;
@@ -62,7 +63,9 @@ const SearchBarComponent = (props: SearchBarComponentProps) => {
         ref={searchBarRef}
         onKeyboardHide={() => console.log('keyboard is hidden')}
       />
-      {isFocus ? <TextButton text="Cancel" onPress={handleCancel} /> : null}
+      {isFocus ? (
+        <TextButton text={props.cancelButtonText} onPress={handleCancel} />
+      ) : null}
     </View>
   );
 };
