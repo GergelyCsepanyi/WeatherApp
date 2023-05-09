@@ -1,11 +1,5 @@
-import React, {useCallback, useEffect, useRef, useState} from 'react';
-import {
-  Text,
-  SafeAreaView,
-  View,
-  TouchableOpacity,
-  Animated,
-} from 'react-native';
+import React, {useCallback, useEffect, useState} from 'react';
+import {Text, SafeAreaView, View, TouchableOpacity} from 'react-native';
 import SearchBar from '../../components/Searchbar';
 import styles from './styles';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
@@ -14,15 +8,12 @@ import RenderIconButton from '../../components/RenderIconButton';
 import {FlatList} from 'react-native-gesture-handler';
 import {CityResponse, citiesApi} from '../../services/CitiesAPI';
 import {City} from '../../stores/CityStore';
-import DraggableFlatList, {
-  RenderItemParams,
-  ScaleDecorator,
-} from 'react-native-draggable-flatlist';
+import DraggableFlatList from 'react-native-draggable-flatlist';
 import {toJS} from 'mobx';
 import {Stack} from 'react-native-spacing-system';
-import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import {useCityStore, useLanguageStore} from '../../contexts/StoreContext';
 import {observer} from 'mobx-react';
+import RenderFavouriteCitiesItem from '../../components/RenderFavouriteCitiesItem';
 
 type AddCityScreenProps = NativeStackScreenProps<
   RootStackParamList,
@@ -108,27 +99,6 @@ const AddCityScreen = (props: AddCityScreenProps) => {
     );
   };
 
-  const renderFavouriteCitiesItem = ({
-    item,
-    drag,
-    isActive,
-  }: RenderItemParams<City>) => {
-    return (
-      <ScaleDecorator>
-        <TouchableOpacity
-          onLongPress={drag}
-          disabled={isActive}
-          style={styles.favouriteCitiesItemContainer}>
-          <Text
-            style={
-              styles.favouriteCitiesItem
-            }>{`${item.name}, ${item.country}`}</Text>
-          <MaterialIcon name="menu" style={styles.favouriteCitiesIconStyle} />
-        </TouchableOpacity>
-      </ScaleDecorator>
-    );
-  };
-
   return (
     <SafeAreaView style={styles.containerStyle}>
       <Stack size={10} />
@@ -173,7 +143,7 @@ const AddCityScreen = (props: AddCityScreenProps) => {
               cityStore.replaceCities(data as City[]);
             }}
             ListHeaderComponent={renderFavouriteCitiesHeader}
-            renderItem={renderFavouriteCitiesItem}
+            renderItem={RenderFavouriteCitiesItem}
             ListEmptyComponent={
               searchbarCityValue !== '' ? renderFlatListEmptyItem : null
             }
