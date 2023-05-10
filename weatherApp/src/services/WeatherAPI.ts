@@ -74,7 +74,7 @@ export type WeatherResponse = {
   };
 };
 
-type WeatherForecastDailyWeatherType = {
+export type WeatherForecastDailyWeatherType = {
   date: string;
   date_epoch: number;
   day: {
@@ -147,6 +147,22 @@ export interface WeatherApiInterface {
   ) => Promise<WeatherForecastResponse | null>;
 }
 
+const getTomorrowDate = () => {
+  const today = new Date();
+
+  today.setDate(today.getDate() + 1);
+
+  return today.toISOString();
+};
+
+const getDate = (day: number) => {
+  const today = new Date();
+
+  today.setDate(today.getDate() + day);
+
+  return today.toISOString();
+};
+
 class WeatherApi implements WeatherApiInterface {
   fetchWeather = (
     longitude: number,
@@ -166,8 +182,9 @@ class WeatherApi implements WeatherApiInterface {
     latitude: number,
     lang: WeatherLangs,
     days: number = 3,
+    dateFromFetchWeather: string = getTomorrowDate() + ',' + getDate(2),
   ) => {
-    const url = `${WEATHERFORECAST_URL}?q=${latitude},${longitude}&days=${days}&lang=${lang}`;
+    const url = `${WEATHERFORECAST_URL}?q=${latitude},${longitude}&days=${days}&lang=${lang}&dt=${dateFromFetchWeather}`;
     const options = {
       method: 'GET',
       headers: {

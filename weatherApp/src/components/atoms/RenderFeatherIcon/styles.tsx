@@ -6,6 +6,9 @@ const styles = StyleSheet.create({
     flex: 1,
     textAlign: 'center',
     color: Colors.defaultTextColor,
+    alignSelf: 'center',
+    alignContent: 'center',
+    alignItems: 'center',
   },
 });
 

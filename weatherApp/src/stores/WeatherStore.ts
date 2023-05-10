@@ -39,7 +39,7 @@ const getWeather = (weathers: Weather[], cityName: string): Weather | null => {
 export class WeatherStore {
   weathers: Weather[] = [];
 
-  units: UnitsType = 'metric';
+  unitSystem: UnitsType = 'metric';
 
   weatherUnit: WeatherUnitType = '°C';
 
@@ -52,9 +52,13 @@ export class WeatherStore {
   setUnits = (lang: LanguagesValue): void => {
     switch (lang) {
       case 'en':
+        this.unitSystem = 'imperial';
+        this.weatherUnit = 'F';
+        this.windSpeedUnit = 'mph';
+        break;
       case 'hu':
       case 'uk':
-        this.units = 'metric';
+        this.unitSystem = 'metric';
         this.weatherUnit = '°C';
         this.windSpeedUnit = 'km/h';
         break;

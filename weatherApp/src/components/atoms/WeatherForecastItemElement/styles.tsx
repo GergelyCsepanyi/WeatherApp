@@ -3,8 +3,9 @@ import Colors from '../../../themes/Colors';
 
 const styles = StyleSheet.create({
   mainContainer: {
-    //flex: 1,
-    width: '100%',
+    flex: 1,
+    width: '90%',
+    alignSelf: 'center',
     flexDirection: 'row',
     borderBottomWidth: 0.3,
     borderBottomColor: Colors.grey,
@@ -12,23 +13,26 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
   },
   iconContainer: {
-    //flex: 1,
+    flex: 1,
     height: 32,
     width: '10%',
     //borderWidth: 2,
     alignSelf: 'center',
+    textAlign: 'center',
+    alignContent: 'center',
+    alignItems: 'center',
+    paddingTop: 3,
     color: Colors.defaultTextColor,
   },
   textContainer: {
     //flex: 1,
     //borderWidth: 2,
-    width: '90%',
+    width: '80%',
     // height: 32,
 
     textAlign: 'left',
     alignSelf: 'center',
     padding: 0,
-    color: Colors.defaultTextColor,
     alignItems: 'center',
   },
   text: {
@@ -38,6 +42,7 @@ const styles = StyleSheet.create({
     textAlign: 'left',
     fontSize: 16,
     fontWeight: '500',
+    color: Colors.defaultTextColor,
   },
 });
 

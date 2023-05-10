@@ -22,6 +22,14 @@ export type TranslatedText = {
   favouriteCities: string;
   cancel: string;
   noDataFound: string;
+  forecast: string;
+  monday: string;
+  tuesday: string;
+  wednesday: string;
+  thursday: string;
+  friday: string;
+  saturday: string;
+  sunday: string;
 };
 
 type LanguagesLabel = 'HU' | 'UK' | 'EN';

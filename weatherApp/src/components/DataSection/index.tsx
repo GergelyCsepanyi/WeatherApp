@@ -9,14 +9,16 @@ import {observer} from 'mobx-react';
 import {useLanguageStore, useWeatherStore} from '../../contexts/StoreContext';
 import RenderFeatherIcon from '../atoms/RenderFeatherIcon';
 import RenderCloudIcon from '../atoms/RenderCloudIcon';
-import WeatherForecastItem from '../molecules/WeatherForecastItem';
+import WeatherForecastList from '../organisms/WeatherForecastList';
+import {WeatherForecastResponse} from '../../services/WeatherAPI';
 
 type DataSectionProps = {
   weather: Weather;
+  weatherForecast: WeatherForecastResponse;
 };
 
 const DataSection = (props: DataSectionProps) => {
-  const {weather} = props;
+  const {weather, weatherForecast} = props;
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const languageStore = useLanguageStore();
@@ -62,7 +64,7 @@ const DataSection = (props: DataSectionProps) => {
 
   const formatWindSpeed = (windSpeed: number): string => {
     var output = '';
-    switch (weatherStore.units) {
+    switch (weatherStore.unitSystem) {
       case 'metric':
         //meter/sec
         const result = Math.round(windSpeed * 3.6);
@@ -92,13 +94,13 @@ const DataSection = (props: DataSectionProps) => {
 
   useEffect(() => {}, [languageStore.language]);
 
-  if (isLoading || !weather) {
+  if (isLoading || !weather || !weatherForecast) {
     return <Text>Loading</Text>;
   }
 
   return (
     <View>
-      <ScrollView style={styles.containerStyle}>
+      <ScrollView style={styles.containerStyle} nestedScrollEnabled>
         <Stack size={10} />
         <DataElement
           dataKey={languageStore.string.temperature}
@@ -176,7 +178,7 @@ const DataSection = (props: DataSectionProps) => {
           })}
         />
 
-        <WeatherForecastItem />
+        <WeatherForecastList data={weatherForecast.forecast.forecastday} />
       </ScrollView>
     </View>
   );

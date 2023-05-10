@@ -56,7 +56,7 @@ const CityScreen = (props: CityScreenProps) => {
         const currentWeatherResponse = await weatherApi.fetchWeather(
           currentCity.longitude,
           currentCity.latitude,
-          weatherStore.units,
+          weatherStore.unitSystem,
           languageStore.language,
         );
         if (currentWeatherResponse === null) {
@@ -78,7 +78,12 @@ const CityScreen = (props: CityScreenProps) => {
       }
     };
     fetchWeather();
-  }, [currentCity, weatherStore, languageStore.language, weatherStore.units]);
+  }, [
+    currentCity,
+    weatherStore,
+    languageStore.language,
+    weatherStore.unitSystem,
+  ]);
 
   useEffect(() => {
     weatherStore.setUnits(languageStore.language);
@@ -88,14 +93,14 @@ const CityScreen = (props: CityScreenProps) => {
     return <Text>Error: {error}</Text>;
   }
 
-  if (isLoading || !currentWeather || !currentCity) {
+  if (isLoading || !currentCity || !currentWeather || !weatherForecast) {
     return <Text>Loading</Text>;
   }
 
   return (
     <SafeAreaView style={styles.containerStyle}>
       <Header cityName={currentCity.name} />
-      <DataSection weather={currentWeather} />
+      <DataSection weather={currentWeather} weatherForecast={weatherForecast} />
     </SafeAreaView>
   );
 };

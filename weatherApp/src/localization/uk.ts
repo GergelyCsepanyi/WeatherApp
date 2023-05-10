@@ -19,4 +19,12 @@ export const ukrainian: TranslatedText = {
   favouriteCities: 'UK Favourite Cities',
   cancel: 'UK Cancel',
   noDataFound: 'UK No Data Found!',
+  forecast: 'UK Forecast',
+  monday: 'UK Monday',
+  tuesday: 'UK Tuesday',
+  wednesday: 'UK Wednesday',
+  thursday: 'UK Thursday',
+  friday: 'UK Friday',
+  saturday: 'UK Saturday',
+  sunday: 'UK Sunday',
 };

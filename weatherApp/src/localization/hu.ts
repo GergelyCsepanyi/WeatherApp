@@ -19,4 +19,12 @@ export const hungarian: TranslatedText = {
   favouriteCities: 'HU Favourite Cities',
   cancel: 'HU Cancel',
   noDataFound: 'HU No Data Found!',
+  forecast: 'HU Forecast',
+  monday: 'HU Monday',
+  tuesday: 'HU Tuesday',
+  wednesday: 'HU Wednesday',
+  thursday: 'HU Thursday',
+  friday: 'HU Friday',
+  saturday: 'HU Saturday',
+  sunday: 'HU Sunday',
 };

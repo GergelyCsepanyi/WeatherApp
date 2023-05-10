@@ -19,4 +19,12 @@ export const english: TranslatedText = {
   favouriteCities: 'Favourite Cities',
   cancel: 'Cancel',
   noDataFound: 'No Data Found!',
+  forecast: 'Forecast',
+  monday: 'Monday',
+  tuesday: 'Tuesday',
+  wednesday: 'Wednesday',
+  thursday: 'Thursday',
+  friday: 'Friday',
+  saturday: 'Saturday',
+  sunday: 'Sunday',
 };
