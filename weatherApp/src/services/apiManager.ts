@@ -1,6 +1,7 @@
 export enum APIType {
   citiesAPI = 'citiesAPI',
   weatherAPI = 'weatherAPI',
+  weatherForecastAPI = 'weatherForecastAPI',
 }
 
 export const request = <T>(
@@ -16,6 +17,8 @@ export const request = <T>(
         case APIType.citiesAPI:
           return data.data as T;
         case APIType.weatherAPI:
+          return data as T;
+        case APIType.weatherForecastAPI:
           return data as T;
       }
     })

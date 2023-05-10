@@ -4,11 +4,11 @@ import {LanguagesValue} from './LanguageStore';
 
 export type Weather = WeatherResponse;
 
-export type UnitsType = 'metric' | 'standard' | 'imperial';
+export type UnitsType = 'metric' | 'imperial';
 
-export type WeatherUnitType = 'K' | '°C' | 'F';
+export type WeatherUnitType = '°C' | 'F';
 
-// export type WindSpeedUnitType = 'km/h' | 'mph';
+export type WindSpeedUnitType = 'km/h' | 'mph';
 
 const addWeather = (weathers: Weather[], weather: Weather): Weather[] => {
   console.log('weather to add:', weather);
@@ -43,7 +43,7 @@ export class WeatherStore {
 
   weatherUnit: WeatherUnitType = '°C';
 
-  // windSpeedUnit: WindSpeedUnitType = 'km/h';
+  windSpeedUnit: WindSpeedUnitType = 'km/h';
 
   constructor() {
     makeAutoObservable(this);
@@ -52,15 +52,11 @@ export class WeatherStore {
   setUnits = (lang: LanguagesValue): void => {
     switch (lang) {
       case 'en':
-        this.units = 'imperial';
-        this.weatherUnit = 'K';
-        // this.windSpeedUnit = 'mph';
-        break;
       case 'hu':
       case 'uk':
         this.units = 'metric';
         this.weatherUnit = '°C';
-        // this.windSpeedUnit = 'km/h';
+        this.windSpeedUnit = 'km/h';
         break;
       default:
         throw new Error('Not implemented Weather unit type');

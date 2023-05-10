@@ -5,7 +5,7 @@ import Header from '../../components/Header';
 import DataSection from '../../components/DataSection';
 import {City} from '../../stores/CityStore';
 import {Weather} from '../../stores/WeatherStore';
-import {weatherApi} from '../../services/WeatherAPI';
+import {WeatherForecastResponse, weatherApi} from '../../services/WeatherAPI';
 import {
   useCityStore,
   useLanguageStore,
@@ -17,8 +17,6 @@ type CityScreenProps = {
   city?: City;
 };
 
-// type CityScreenProps = NativeStackScreenProps<RootTabParamList, 'CityScreen'>;
-
 const CityScreen = (props: CityScreenProps) => {
   const cityStore = useCityStore();
   const weatherStore = useWeatherStore();
@@ -27,6 +25,8 @@ const CityScreen = (props: CityScreenProps) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>('');
   const [currentWeather, setCurrentWeather] = useState<Weather>();
+  const [weatherForecast, setWeatherForecast] =
+    useState<WeatherForecastResponse>();
   const [currentCity, setCurrentCity] = useState<City>();
 
   useEffect(() => {
@@ -45,35 +45,39 @@ const CityScreen = (props: CityScreenProps) => {
   }, [cityStore.currentCity, props.city]);
 
   useEffect(() => {
+    setIsLoading(true);
+
     if (!currentCity) {
-      setIsLoading(true);
       return;
     }
-    // let result = weatherStore.getWeather(currentCity.name);
 
-    // if (result) {
-    //   setIsLoading(false);
-    //   setCurrentWeather(result);
-    //   return;
-    // }
-
-    weatherApi
-      .fetchWeather(
-        currentCity.longitude,
-        currentCity.latitude,
-        weatherStore.units,
-        languageStore.language,
-      )
-      .then(res => {
-        if (res !== null) {
-          // console.log('RES:', res);
-          // weatherStore.addWeather(res as Weather);
-          setIsLoading(false);
-          setCurrentWeather(res);
-          // console.log('weathers:', weatherStore.weathers);
+    const fetchWeather = async () => {
+      try {
+        const currentWeatherResponse = await weatherApi.fetchWeather(
+          currentCity.longitude,
+          currentCity.latitude,
+          weatherStore.units,
+          languageStore.language,
+        );
+        if (currentWeatherResponse === null) {
+          return;
         }
-      })
-      .catch(err => console.log('ERR', err));
+        const weatherForecastResponse = await weatherApi.fetchWeatherForecast(
+          currentCity.longitude,
+          currentCity.latitude,
+          languageStore.language,
+        );
+        if (weatherForecastResponse === null) {
+          return;
+        }
+        setCurrentWeather(currentWeatherResponse);
+        setWeatherForecast(weatherForecastResponse);
+        setIsLoading(false);
+      } catch (err) {
+        console.log('Error during weather current/foreacast fetch', err);
+      }
+    };
+    fetchWeather();
   }, [currentCity, weatherStore, languageStore.language, weatherStore.units]);
 
   useEffect(() => {

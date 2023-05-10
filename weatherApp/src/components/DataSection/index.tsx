@@ -63,18 +63,17 @@ const DataSection = (props: DataSectionProps) => {
     var output = '';
     switch (weatherStore.units) {
       case 'metric':
-      case 'standard':
         //meter/sec
         const result = Math.round(windSpeed * 3.6);
         if (result < 1) {
-          output = '<1 km/h';
+          output = `<1 ${weatherStore.windSpeedUnit}`;
         } else {
-          output = `${result} km/h`;
+          output = `${result} ${weatherStore.windSpeedUnit}`;
         }
         break;
       case 'imperial':
         // miles/hour
-        output = `${Math.round(windSpeed)} mph`;
+        output = `${Math.round(windSpeed)} ${weatherStore.windSpeedUnit}`;
         break;
     }
     return output;

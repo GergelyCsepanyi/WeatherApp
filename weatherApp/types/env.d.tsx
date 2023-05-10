@@ -7,4 +7,10 @@ declare module '@env' {
 
   export const API_CURRENTWEATHER_URL: string;
   export const API_CURRENTWEATHER_TOKEN: string;
+
+  export const API_WEATHERFORECAST_URL: string;
+  export const API_WEATHERFORECAST_TOKEN_KEY: string;
+  export const API_WEATHERFORECAST_TOKEN_VALUE: string;
+  export const API_WEATHERFORECAST_HOST_KEY: string;
+  export const API_WEATHERFORECAST_HOST_VALUE: string;
 }
