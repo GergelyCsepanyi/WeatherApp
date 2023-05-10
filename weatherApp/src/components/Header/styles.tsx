@@ -4,6 +4,7 @@ import Colors from '../../themes/Colors';
 export const styles = StyleSheet.create({
   containerStyle: {
     alignItems: 'center',
+    marginTop: 10,
   },
   cityTextStyle: {
     fontSize: 22,

@@ -11,12 +11,9 @@ const styles = StyleSheet.create({
     width: 200,
   },
   dayTextContainer: {
-    //flex: 1,
     height: 40,
     borderBottomWidth: 2,
     paddingStart: 10,
-    // width: '20%',
-    // alignItems: 'center',
     alignSelf: 'flex-start',
   },
   dayText: {
@@ -30,7 +27,6 @@ const styles = StyleSheet.create({
     paddingTop: 10,
   },
   dataContainer: {
-    //flex: 1,
     width: '100%',
   },
 });

@@ -16,7 +16,6 @@ const styles = StyleSheet.create({
     flex: 1,
     height: 32,
     width: '10%',
-    //borderWidth: 2,
     alignSelf: 'center',
     textAlign: 'center',
     alignContent: 'center',
@@ -25,18 +24,13 @@ const styles = StyleSheet.create({
     color: Colors.defaultTextColor,
   },
   textContainer: {
-    //flex: 1,
-    //borderWidth: 2,
     width: '80%',
-    // height: 32,
-
     textAlign: 'left',
     alignSelf: 'center',
     padding: 0,
     alignItems: 'center',
   },
   text: {
-    //flex: 1,
     width: '100%',
     alignSelf: 'center',
     textAlign: 'left',

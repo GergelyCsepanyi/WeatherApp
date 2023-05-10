@@ -193,8 +193,6 @@ class WeatherApi implements WeatherApiInterface {
       },
     };
 
-    console.log('URL:', url, 'OPTIONS:', options);
-
     return request<WeatherForecastResponse>(
       APIType.weatherForecastAPI,
       url,

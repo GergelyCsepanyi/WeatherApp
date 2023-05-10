@@ -5,6 +5,7 @@ import {WeatherForecastDailyWeatherType} from '../../../services/WeatherAPI';
 import WeatherForecastItem from '../../molecules/WeatherForecastItem';
 import {useLanguageStore} from '../../../contexts/StoreContext';
 import HorizontalListSeparator from '../../atoms/HorizontalListSeparator';
+import styles from './styles';
 
 type WeatherForecastListProps = {
   data: WeatherForecastDailyWeatherType[];
@@ -12,14 +13,15 @@ type WeatherForecastListProps = {
 
 const WeatherForecastList = (props: WeatherForecastListProps) => {
   const languageStore = useLanguageStore();
-
-  console.log('DAYS number:', props.data.length);
+  const [, ...forecasts] = props.data;
 
   return (
     <View>
-      <Text>{languageStore.string.forecast}</Text>
+      <View style={styles.titleTextContainer}>
+        <Text style={styles.titleText}>{languageStore.string.forecast}</Text>
+      </View>
       <FlatList
-        data={[...props.data, ...props.data]}
+        data={forecasts}
         keyExtractor={item => item.date_epoch.toString()}
         renderItem={({item, index}) => (
           <WeatherForecastItem key={index} item={item} />

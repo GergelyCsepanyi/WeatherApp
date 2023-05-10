@@ -13,7 +13,9 @@ const RenderFeatherIcon = (props: RenderFeatherIconProps) => {
     <Feather
       style={[
         styles.iconStyle,
-        {transform: [{rotate: `${props.iconRotateDeg}deg`}]},
+        props.iconRotateDeg
+          ? {transform: [{rotate: `${props.iconRotateDeg}deg`}]}
+          : null,
       ]}
       name={props.name}
       size={props.size || 22}

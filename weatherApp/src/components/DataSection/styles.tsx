@@ -11,7 +11,6 @@ const styles = StyleSheet.create({
     flex: 1,
     textAlign: 'center',
     color: Colors.defaultTextColor,
-    // borderWidth: 1,
   },
 });
 

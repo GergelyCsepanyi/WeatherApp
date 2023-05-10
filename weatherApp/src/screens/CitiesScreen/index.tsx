@@ -52,9 +52,6 @@ const CitiesScreen = (props: CitiesScreenProps) => {
         )}
       /> */}
       <SwiperFlatList
-        //autoplay
-        //autoplayDelay={2}
-        //autoplayLoop
         index={0}
         showPagination
         data={cityStore.cities}

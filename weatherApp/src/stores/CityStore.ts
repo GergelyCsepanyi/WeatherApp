@@ -69,8 +69,6 @@ export class CityStore {
   }
 
   getCurrentPosition() {
-    console.log('start GPS, currPosition:', this.currentPosition);
-
     Geolocation.getCurrentPosition(
       info =>
         this.setCurrentPosition({
@@ -81,7 +79,6 @@ export class CityStore {
         console.log('Error during GPS:', error);
       },
     );
-    console.log('after GPS, currPosition:', this.currentPosition);
   }
 
   async changeCurrentCity() {
@@ -107,8 +104,6 @@ export class CityStore {
 
   addCity(city: CityResponse) {
     this.cities = addCity(this.cities, city);
-
-    console.log('cities after add:', this.cities);
   }
 
   replaceCities(cities: City[]) {

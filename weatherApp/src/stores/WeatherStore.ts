@@ -11,7 +11,6 @@ export type WeatherUnitType = '°C' | 'F';
 export type WindSpeedUnitType = 'km/h' | 'mph';
 
 const addWeather = (weathers: Weather[], weather: Weather): Weather[] => {
-  console.log('weather to add:', weather);
   if (!weathers) {
     throw new Error('Weathers array is not exist');
   }

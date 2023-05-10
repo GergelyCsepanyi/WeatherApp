@@ -52,14 +52,15 @@ const WeatherForecastItem = ({item}: WeatherForecastItemProp) => {
 
   const temperatureText =
     (weatherStore.unitSystem === 'metric'
-      ? `${item.day.mintemp_c}/${item.day.maxtemp_c} `
-      : `${item.day.mintemp_f}/${item.day.maxtemp_f} `) +
-    weatherStore.weatherUnit;
+      ? `${Math.round(item.day.mintemp_c)}/${Math.round(item.day.maxtemp_c)} `
+      : `${Math.round(item.day.mintemp_f)}/${Math.round(
+          item.day.maxtemp_f,
+        )} `) + weatherStore.weatherUnit;
 
   const windText =
     (weatherStore.unitSystem === 'metric'
-      ? `${item.day.maxwind_kph} `
-      : `${item.day.maxwind_mph} `) + weatherStore.windSpeedUnit;
+      ? `${Math.round(item.day.maxwind_kph)} `
+      : `${Math.round(item.day.maxwind_mph)} `) + weatherStore.windSpeedUnit;
 
   return (
     <View style={styles.mainContainer}>
@@ -81,41 +82,23 @@ const WeatherForecastItem = ({item}: WeatherForecastItemProp) => {
           text={windText}
         />
 
-        {/* {item.day.daily_chance_of_rain > 0 ? (
+        {item.day.daily_chance_of_rain > 0 ? (
           <WeatherForecastItemElement
             icon={RenderFeatherIcon({
               name: 'cloud-rain',
             })}
-            text={item.day.daily_chance_of_rain.toString()}
-          />
-        ) : null} */}
-
-        {getDay(item.date, languageStore) === 'UK Thursday' ? (
-          <WeatherForecastItemElement
-            icon={RenderFeatherIcon({
-              name: 'cloud-rain',
-            })}
-            text={item.day.daily_chance_of_rain.toString()}
+            text={`${item.day.daily_chance_of_rain.toString()} %`}
           />
         ) : null}
 
-        {getDay(item.date, languageStore) === 'UK Thursday' ? (
+        {item.day.daily_chance_of_snow > 0 ? (
           <WeatherForecastItemElement
             icon={RenderFeatherIcon({
               name: 'cloud-snow',
             })}
-            text={item.day.daily_chance_of_snow.toString()}
+            text={`${item.day.daily_chance_of_snow.toString()} %`}
           />
         ) : null}
-
-        {/* {item.day.daily_chance_of_snow > 0 ? (
-          <WeatherForecastItemElement
-            icon={RenderFeatherIcon({
-              name: 'cloud-snow',
-            })}
-            text={item.day.daily_chance_of_snow.toString()}
-          />
-        ) : null} */}
       </View>
     </View>
   );

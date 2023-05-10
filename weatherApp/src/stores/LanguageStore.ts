@@ -1,5 +1,4 @@
 import {makeAutoObservable} from 'mobx';
-// import {LanguagesValue} from '../localization';
 import LocalizedStrings from 'react-native-localization';
 import {texts} from '../localization';
 

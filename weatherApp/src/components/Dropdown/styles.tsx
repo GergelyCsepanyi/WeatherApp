@@ -7,8 +7,8 @@ const styles = StyleSheet.create({
     padding: 16,
     paddingBottom: 0,
     marginBottom: 5,
-    // flex: 1,
-    //borderWidth: 2,
+    marginTop: 15,
+    paddingTop: 15,
     width: 150,
   },
   dropdown: {

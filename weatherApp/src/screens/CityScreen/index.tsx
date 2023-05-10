@@ -30,7 +30,6 @@ const CityScreen = (props: CityScreenProps) => {
   const [currentCity, setCurrentCity] = useState<City>();
 
   useEffect(() => {
-    // setIsLoading(true);
     setError('');
     if (!cityStore.currentCity) {
       setError(`There is no cityStore.currentCity: ${cityStore.currentCity}`);
@@ -41,7 +40,6 @@ const CityScreen = (props: CityScreenProps) => {
     } else {
       setCurrentCity(cityStore.currentCity);
     }
-    // setIsLoading(false);
   }, [cityStore.currentCity, props.city]);
 
   useEffect(() => {
