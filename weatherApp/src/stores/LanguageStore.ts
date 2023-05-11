@@ -47,6 +47,7 @@ export const languages: Languages[] = [
 export class LanguageStore {
   defaultLanguage: LanguagesValue = 'uk';
   language: LanguagesValue = this.defaultLanguage;
+  timeFormat: '12' | '24' = '12';
 
   string = new LocalizedStrings<TranslatedText>(texts);
 
@@ -55,12 +56,25 @@ export class LanguageStore {
     this.string.setLanguage(this.defaultLanguage);
   }
 
+  private setTimeFormat = (timeFormat: '12' | '24') => {
+    this.timeFormat = timeFormat;
+  };
+
   changeLanguage(language: LanguagesValue) {
     if (language === this.language) {
       return;
     }
     this.string.setLanguage(language);
     this.language = language;
+    switch (language) {
+      case 'hu':
+        this.setTimeFormat('24');
+        break;
+      case 'uk':
+      case 'en':
+        this.setTimeFormat('12');
+        break;
+    }
   }
 
   getLanguage() {

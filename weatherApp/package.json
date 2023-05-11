@@ -31,7 +31,8 @@
     "react-native-spacing-system": "^2.0.0-rc.0",
     "react-native-swiper": "^1.6.0-rc.3",
     "react-native-swiper-flatlist": "^3.2.2",
-    "react-native-vector-icons": "^9.2.0"
+    "react-native-vector-icons": "^9.2.0",
+    "react-spinners": "^0.13.8"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

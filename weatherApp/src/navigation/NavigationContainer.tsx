@@ -6,10 +6,10 @@ import CityScreen from '../screens/CityScreen';
 import AddCityScreen from '../screens/AddCityScreen';
 import CitiesStackScreen from '../screens/CitiesStackScreen';
 import {useCityStore} from '../contexts/StoreContext';
-import {Text} from 'react-native';
 import {observer} from 'mobx-react';
 import TabBarIcon from '../components/TabBarIcon';
 import LanguageSelection from '../components/LanguageSelection';
+import Spinner from '../components/atoms/Spinner';
 
 export type RootTabParamList = {
   CityScreen: {city?: City};
@@ -29,7 +29,7 @@ const NavigationComponentContainer = observer(() => {
   }, [cityStore, cityStore.currentPosition]);
 
   if (isLoading) {
-    return <Text>Loading</Text>;
+    return <Spinner />;
   }
 
   return (

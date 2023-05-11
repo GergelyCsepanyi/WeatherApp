@@ -12,6 +12,7 @@ import {
   useWeatherStore,
 } from '../../contexts/StoreContext';
 import {observer} from 'mobx-react';
+import Spinner from '../../components/atoms/Spinner';
 
 type CityScreenProps = {
   city?: City;
@@ -92,7 +93,7 @@ const CityScreen = (props: CityScreenProps) => {
   }
 
   if (isLoading || !currentCity || !currentWeather || !weatherForecast) {
-    return <Text>Loading</Text>;
+    return <Spinner />;
   }
 
   return (

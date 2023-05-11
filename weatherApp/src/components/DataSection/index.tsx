@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {ScrollView, Text, View} from 'react-native';
+import {ScrollView, View} from 'react-native';
 import styles from './styles';
 import DataElement from '../DataElement';
 import {Stack} from 'react-native-spacing-system';
@@ -11,6 +11,7 @@ import RenderFeatherIcon from '../atoms/RenderFeatherIcon';
 import RenderCloudIcon from '../atoms/RenderCloudIcon';
 import WeatherForecastList from '../organisms/WeatherForecastList';
 import {WeatherForecastResponse} from '../../services/WeatherAPI';
+import Spinner from '../atoms/Spinner';
 
 type DataSectionProps = {
   weather: Weather;
@@ -53,11 +54,27 @@ const DataSection = (props: DataSectionProps) => {
         break;
     }
 
+    var timeNotation = '';
+    switch (languageStore.timeFormat) {
+      case '12':
+        if (hours < 12) {
+          timeNotation = ' am';
+        } else {
+          timeNotation = ' pm';
+          hours -= 12;
+        }
+        break;
+      case '24':
+        break;
+    }
+
     const minutes = '0' + date.getMinutes();
 
     const seconds = '0' + date.getSeconds();
 
-    const time = `${hours}:${minutes.substr(-2)}:${seconds.substr(-2)}`;
+    const time = `${hours}:${minutes.substr(-2)}:${seconds.substr(
+      -2,
+    )}${timeNotation}`;
 
     return time;
   };
@@ -95,7 +112,7 @@ const DataSection = (props: DataSectionProps) => {
   useEffect(() => {}, [languageStore.language]);
 
   if (isLoading || !weather || !weatherForecast) {
-    return <Text>Loading</Text>;
+    return <Spinner />;
   }
 
   return (
